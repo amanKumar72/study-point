@@ -53,6 +53,12 @@ const userSchema = new mongoose.Schema(
         ref: "CourseProgress",
       },
     ],
+    token: {
+      type: String,
+    },
+    resetPasswordExpires:{
+      type:Date
+    }
 
     // Add timestamps for when the document is created and last modified
   },

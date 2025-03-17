@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const sendMail = require("../utils/nodemailer");
 
 const otpSchema = new Schema({
   email: {
@@ -16,4 +17,22 @@ const otpSchema = new Schema({
   },
 });
 
+const sendVerificationMail = (mail, otp) => {
+  try {
+    const info = sendMail(
+      mail,
+      "Verify your email for study-point",
+      `Your verification code is ${otp}`
+    );
+    console.log("Email sent successfully", info);
+  } catch (error) {
+    console.error("Error while sending verification email:", error.message);
+    console.error(error);
+  }
+};
+
+otpSchema.pre("save", async function (next) {
+  await sendVerificationMail(this.email, this.otp);
+  next();
+});
 module.exports = model("Otp", otpSchema);
