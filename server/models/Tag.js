@@ -10,9 +10,9 @@ const tagSchema = new Schema({
     type:String
 
   },
-  course:{
+  courses:[{
     type: Schema.Types.ObjectId,
     ref: 'Course'
-  }
+  }]
 });
 const Tag = mongoose.model("Tag", tagSchema);
