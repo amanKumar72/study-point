@@ -30,16 +30,15 @@ const coursesSchema = new mongoose.Schema({
   thumbnail: {
     type: String,
   },
-  tag: {
+  tag: [{
+    type:String,
+    required:true
+  }],
+  category: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
-    ref: "Tag",
+    ref: "Catagory",
   },
-  // category: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   // required: true,
-  //   ref: "Category",
-  // },
   studentsEnrolled: [
     {
       type: mongoose.Schema.Types.ObjectId,

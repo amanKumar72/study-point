@@ -1,5 +1,5 @@
 const { uploadImage } = require("../utils/cloudanory");
-const Tag = require("../models/Tag");
+const Catagory = require("../models/Catagory");
 const User = require("../models/User");
 const Course = require("../models/Course");
 
@@ -10,8 +10,9 @@ exports.createCourse = async (req, res) => {
       courseDescription,
       whatYouWillLearn,
       price,
-      tag,
+      catagory,
       language,
+      tag
     } = req.body;
     const thumbnail = req.files.thumbnail;
     if (
@@ -20,8 +21,9 @@ exports.createCourse = async (req, res) => {
       !courseDescription ||
       !whatYouWillLearn ||
       !price ||
-      !tag ||
-      !language
+      !catagory ||
+      !language ||
+      !tag
     ) {
       return res
         .status(403)
@@ -37,10 +39,10 @@ exports.createCourse = async (req, res) => {
       });
     }
 
-    //check tag
-    const tagData = await Tag.findById(tag);
-    if (!tagData) {
-      return res.status(401).json({ success: false, message: "Invalid tag" });
+    //check catagory
+    const catagoryData = await Catagory.findById(catagory);
+    if (!catagoryData) {
+      return res.status(401).json({ success: false, message: "Invalid catagory" });
     }
 
     //upload thumbnail
@@ -61,8 +63,9 @@ exports.createCourse = async (req, res) => {
       courseDescription,
       price,
       language,
+      tag,
       thumbnail: thumbnailUrl.secure_url,
-      tag: tagData._id,
+      category: catagoryData._id,
       instructor: instructor._id,
       whatYouWillLearn,
     });
@@ -76,9 +79,9 @@ exports.createCourse = async (req, res) => {
       { new: true }
     );
 
-    //update tag
-    await Tag.findByIdAndUpdate(
-      tagData._id,
+    //update catagory
+    await Catagory.findByIdAndUpdate(
+      catagoryData._id,
       {
         $push: { courses: newCourse._id },
       },

@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const sectionSchema = new mongoose.Schema({
   sectionName: {
     type: String,
+    required: true,
   },
   sectionDescription: {
     type: String,
@@ -11,10 +12,10 @@ const sectionSchema = new mongoose.Schema({
   sectionDuration: {
     type: String,
   },
-  subSection: [
+  subSections: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
+
       ref: "SubSection",
     },
   ],
