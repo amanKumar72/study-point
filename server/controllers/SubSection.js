@@ -3,7 +3,7 @@ const Section = require("../models/Section");
 const SubSection = require("../models/SubSection");
 const { uploadImage } = require("../utils/cloudanory");
 
-exports.addSubSection = async (req, res) => {
+exports.createSubSection = async (req, res) => {
   try {
     const { name, description, sectionId } = req.body;
     const videoFile = req.files.videoFile;
@@ -125,10 +125,14 @@ exports.deleteSection=async (req,res)=>{
         }
         const subSection=await SubSection.findByIdAndDelete(subSectionId)
 
+        const updatedSection = await Section.findById(sectionId).populate(
+          "subSection"
+        )
+
         res.status(200).json({
             success: true,
             message: "SubSection deleted successfully",
-            subSection
+            updatedSection
         })
     } catch (error) {
         return res.status(500).json({

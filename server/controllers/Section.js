@@ -1,7 +1,8 @@
 const Section = require("../models/Section");
+const SubSection = require("../models/SubSection");
 const Course = require("../models/Course");
 
-exports.addSection = async (req, res) => {
+exports.createSection = async (req, res) => {
   const { name, description, courseId } = req.body;
   if (!name || !description || !courseId) {
     return res.status(400).json({
@@ -18,7 +19,12 @@ exports.addSection = async (req, res) => {
       { _id: courseId },
       { $pull: { courseContent: newSection._id } },
       { new: true }
-    );
+    ).populate({
+      path:"courseContent",
+      populate:{
+        path:"subSection"
+      }
+    }).exec();
 
     res.status(201).json({
       success: true,
@@ -85,14 +91,23 @@ exports.deleteSection = async (req, res) => {
     });
   }
   try {
-    const section = await Section.findByIdAndDelete(sectionId);
+
+
+
+    const section = await Section.findById(sectionId);
     if (!section) {
       return res.status(400).json({
         message: "No section available with the given id",
         success: false,
       });
     }
-    //TODO:do we need to delete the section from the course
+    
+    //TODO:do we need to delete the section from the course -Done
+  
+    await SubSection.deleteMany({ _id: { $in: section.subSections } });
+
+    await Section.findByIdAndDelete(sectionId);
+
     res.status(200).json({
       success: true,
       message: "Section is deleted",

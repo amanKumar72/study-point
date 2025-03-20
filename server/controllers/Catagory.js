@@ -1,6 +1,6 @@
 const Catagory = require("../models/Catagory");
 
-exports.addCatagoey = async (req, res) => {
+exports.createCatagory = async (req, res) => {
   try {
     const { name, description } = req.body;
     if (!name || !description) {

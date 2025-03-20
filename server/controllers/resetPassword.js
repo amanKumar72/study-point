@@ -1,4 +1,10 @@
 const { randomBytes } = require("node:crypto");
+const paswordResetSuccessful=require("../mail/templates/passwordUpdate.js");
+const User=require("../models/User");
+const sendMail=require("../utils/nodemailer");
+const passwordChangeLink=require("../mail/templates/PasswordChangeLink.js");
+const bcrypt = require("bcrypt");
+
 
 //reset passwordToken
 exports.resetpasswordToken = async (req, res) => {
@@ -37,7 +43,7 @@ exports.resetpasswordToken = async (req, res) => {
     sendMail(
       user.email,
       "Reset Password",
-      `<h3>Please click on the link to reset your password</h3><a href='${process.env.FRONTEND_URL}/reset-password/${token}'>Reset Password</a>`
+      passwordChangeLink(user.email, user.name, token)
     );
 
     return res.status(200).json({
@@ -100,6 +106,13 @@ exports.resetPassword = async (req, res) => {
         resetPasswordExpires: null,
       },
       { new: true }
+    );
+
+    //send email
+    sendMail(
+      user.email,
+      "Reset Password Successful",
+      paswordResetSuccessful(user.email, user.name)
     );
 
     return res.status(200).json({
