@@ -1,5 +1,5 @@
 const { uploadImage } = require("../utils/cloudanory");
-const Catagory = require("../models/Catagory");
+const Category = require("../models/Category");
 const User = require("../models/User");
 const Course = require("../models/Course");
 
@@ -10,10 +10,10 @@ exports.createCourse = async (req, res) => {
       courseDescription,
       whatYouWillLearn,
       price,
-      catagory,
+      Category,
       language,
       instructions,
-      tag
+      tag,
     } = req.body;
     const thumbnail = req.files.thumbnail;
     if (
@@ -22,7 +22,7 @@ exports.createCourse = async (req, res) => {
       !courseDescription ||
       !whatYouWillLearn ||
       !price ||
-      !catagory ||
+      !Category ||
       !language ||
       !tag ||
       !instructions.length
@@ -41,10 +41,12 @@ exports.createCourse = async (req, res) => {
       });
     }
 
-    //check catagory
-    const catagoryData = await Catagory.findById(catagory);
-    if (!catagoryData) {
-      return res.status(401).json({ success: false, message: "Invalid catagory" });
+    //check Category
+    const CategoryData = await Category.findById(Category);
+    if (!CategoryData) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid Category" });
     }
 
     //upload thumbnail
@@ -67,10 +69,10 @@ exports.createCourse = async (req, res) => {
       language,
       tag,
       thumbnail: thumbnailUrl.secure_url,
-      category: catagoryData._id,
+      category: CategoryData._id,
       instructor: instructor._id,
       whatYouWillLearn,
-      instructions
+      instructions,
     });
 
     //update user
@@ -82,15 +84,15 @@ exports.createCourse = async (req, res) => {
       { new: true }
     );
 
-    //update catagory
-    await Catagory.findByIdAndUpdate(
-      catagoryData._id,
+    //update Category
+    await Category.findByIdAndUpdate(
+      CategoryData._id,
       {
         $push: { courses: newCourse._id },
       },
       { new: true }
     );
-    
+
     return res.status(201).json({
       success: true,
       message: "Course created successfully",
@@ -99,44 +101,44 @@ exports.createCourse = async (req, res) => {
   } catch (error) {
     console.log("error in creating course");
     res
-    .status(500)
-    .json({ success: false, message: "Error in creating course" });
+      .status(500)
+      .json({ success: false, message: "Error in creating course" });
   }
 };
 
 exports.editCourse = async (req, res) => {
   try {
-    const { courseId } = req.body
-    const updates = req.body
-    const course = await Course.findById(courseId)
+    const { courseId } = req.body;
+    const updates = req.body;
+    const course = await Course.findById(courseId);
 
     if (!course) {
-      return res.status(404).json({ error: "Course not found" })
+      return res.status(404).json({ error: "Course not found" });
     }
 
     // If Thumbnail Image is found, update it
     if (req.files) {
-      console.log("thumbnail update")
-      const thumbnail = req.files.thumbnailImage
+      console.log("thumbnail update");
+      const thumbnail = req.files.thumbnailImage;
       const thumbnailImage = await uploadImageToCloudinary(
         thumbnail,
         process.env.FOLDER_NAME
-      )
-      course.thumbnail = thumbnailImage.secure_url
+      );
+      course.thumbnail = thumbnailImage.secure_url;
     }
 
     // Update only the fields that are present in the request body
     for (const key in updates) {
       if (updates.hasOwnProperty(key)) {
         if (key === "tag" || key === "instructions") {
-          course[key] = JSON.parse(updates[key])
+          course[key] = JSON.parse(updates[key]);
         } else {
-          course[key] = updates[key]
+          course[key] = updates[key];
         }
       }
     }
 
-    await course.save()
+    await course.save();
 
     const updatedCourse = await Course.findOne({
       _id: courseId,
@@ -155,22 +157,22 @@ exports.editCourse = async (req, res) => {
           path: "subSection",
         },
       })
-      .exec()
+      .exec();
 
     res.json({
       success: true,
       message: "Course updated successfully",
       data: updatedCourse,
-    })
+    });
   } catch (error) {
-    console.error(error)
+    console.error(error);
     res.status(500).json({
       success: false,
       message: "Internal server error",
       error: error.message,
-    })
+    });
   }
-}
+};
 
 exports.getAllCourses = async (req, res) => {
   try {
@@ -201,67 +203,77 @@ exports.getAllCourses = async (req, res) => {
   }
 };
 
-// exports.getCourseDetails = async (req, res) => {
-//   try {
-//     const { courseId } = req.body
-//     const courseDetails = await Course.findOne({
-//       _id: courseId,
-//     })
-//       .populate({
-//         path: "instructor",
-//         populate: {
-//           path: "additionalDetails",
-//         },
-//       })
-//       .populate("category")
-//       .populate("ratingAndReviews")
-//       .populate({
-//         path: "courseContent",
-//         populate: {
-//           path: "subSection",
-//           select: "-videoUrl",
-//         },
-//       })
-//       .exec()
+exports.getCourseDetails = async (req, res) => {
+  try {
+    const { courseId } = req.body;
+    if (!courseId) {
+      return res.status(400).json({
+        success: false,
+        message: "courseId is required",
+      });
+    }
+    const courseDetails = await Course.findOne({
+      _id: courseId,
+    })
+      .populate({
+        path: "instructor",
+        populate: {
+          path: "additionalDetails",
+        },
+      })
+      .populate("Category")
+      .populate("RatingAndReview")
+      .populate({
+        path: "courseContent",
+        populate: {
+          path: "subSection",
+          select: "-videoUrl",
+        },
+      })
+      .populate({
+        path: "studentsEnrolled",
+        populate: { path: "additionalDetails" },
+      })
+      .exec();
 
-//     if (!courseDetails) {
-//       return res.status(400).json({
-//         success: false,
-//         message: `Could not find course with id: ${courseId}`,
-//       })
-//     }
+    if (!courseDetails) {
+      return res.status(400).json({
+        success: false,
+        message: `Could not find course with id: ${courseId}`,
+      });
+    }
 
-//     // if (courseDetails.status === "Draft") {
-//     //   return res.status(403).json({
-//     //     success: false,
-//     //     message: `Accessing a draft course is forbidden`,
-//     //   });
-//     // }
+    // if (courseDetails.status === "Draft") {
+    //   return res.status(403).json({
+    //     success: false,
+    //     message: `Accessing a draft course is forbidden`,
+    //   });
+    // }
 
-//     let totalDurationInSeconds = 0
-//     courseDetails.courseContent.forEach((content) => {
-//       content.subSection.forEach((subSection) => {
-//         const timeDurationInSeconds = parseInt(subSection.timeDuration)
-//         totalDurationInSeconds += timeDurationInSeconds
-//       })
-//     })
+    let totalDurationInSeconds = 0;
+    courseDetails.courseContent.forEach((content) => {
+      content.subSection.forEach((subSection) => {
+        const timeDurationInSeconds = parseInt(subSection.timeDuration);
+        totalDurationInSeconds += timeDurationInSeconds;
+      });
+    });
 
-//     const totalDuration = convertSecondsToDuration(totalDurationInSeconds)
+    const totalDuration = convertSecondsToDuration(totalDurationInSeconds);
 
-//     return res.status(200).json({
-//       success: true,
-//       data: {
-//         courseDetails,
-//         totalDuration,
-//       },
-//     })
-//   } catch (error) {
-//     return res.status(500).json({
-//       success: false,
-//       message: error.message,
-//     })
-//   }
-// }
+    return res.status(200).json({
+      success: true,
+      data: {
+        courseDetails,
+        totalDuration,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
 
 // exports.getFullCourseDetails = async (req, res) => {
 //   try {

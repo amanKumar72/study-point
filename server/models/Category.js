@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const { Schema } = mongoose;
-const catagorySchema = new Schema({
+const CategorySchema = new Schema({
   name:{
     type:String,
     required:true
@@ -14,4 +14,4 @@ const catagorySchema = new Schema({
     ref: 'Course'
   }]
 });
-const Tag = mongoose.model("Catagory", catagorySchema);
+const Tag = mongoose.model("Category", CategorySchema);

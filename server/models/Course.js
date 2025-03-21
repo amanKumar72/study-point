@@ -37,7 +37,7 @@ const coursesSchema = new mongoose.Schema({
   category: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
-    ref: "Catagory",
+    ref: "Category",
   },
   studentsEnrolled: [
     {
@@ -45,7 +45,7 @@ const coursesSchema = new mongoose.Schema({
       required: true,
       ref: "User",
     },
-  ],
+],
   language: {
     type: String,
   },
