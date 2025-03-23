@@ -54,7 +54,7 @@ exports.createSubSection = async (req, res) => {
   }
 };
 
-exports.updateSection = async (req, res) => {
+exports.updateSubSection = async (req, res) => {
   try {
     const { name, description, subSectionId } = req.body;
     const videoFile = req.files.videoFile;
@@ -108,7 +108,7 @@ exports.updateSection = async (req, res) => {
   }
 };
 
-exports.deleteSection=async (req,res)=>{
+exports.deleteSubSection=async (req,res)=>{
     try {
         const {subSectionId} =req.params;
         if(!subSectionId){

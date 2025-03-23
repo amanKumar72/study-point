@@ -1,23 +1,44 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
-const port = process.env.PORT||8080;
+const port = process.env.PORT || 8080;
 const cookieParse = require("cookie-parser");
-// const cors = require("cors");
+const cors = require("cors");
+const fileUpload = require("express-fileupload");
 
+//routes
+const userRoute = require("./routes/User");
+const courseRoute = require("./routes/Course");
+const paymentRoute = require("./routes/Payment");
+const profileRoute = require("./routes/Profile");
+
+//connections
 const connectDB = require("./config/database");
-connectDB()
+const { cloudinaryConnect } = require("./config/cloudanory");
+connectDB();
+cloudinaryConnect();
 
 //middlewares
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }))
-app.use(cookieParse())
-// app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }))
+// app.use(express.urlencoded({ extended: true }))
+app.use(cookieParse());
+app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
+app.use(
+  fileUpload({
+    useTempFiles: true,
+    tempFileDir: "/tmp",
+  })
+);
 
-app.get("/",(req,res)=>{
-    res.send("Server is running")
-})
+// handle routes
+app.use("/api/v1/auth", userRoute);
+app.use("/api/v1/course", courseRoute);
+app.use("/api/v1/payment", paymentRoute);
+app.use("/api/v1/profile", profileRoute);
 
-app.listen(port,()=>{
-    console.log(`Server is running on port ${port}`)
-})
+app.get("/", (req, res) => {
+  res.send("Your server is running");
+});
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
