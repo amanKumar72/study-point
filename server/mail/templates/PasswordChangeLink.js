@@ -1,5 +1,5 @@
 require("dotenv").config();
-exports.passwordUpdated = (email, name, token) => {
+const passwordChangeLink = (email, name, token) => {
   return `<!DOCTYPE html>
     <html>
     
@@ -76,3 +76,5 @@ exports.passwordUpdated = (email, name, token) => {
     
     </html>`;
 };
+
+module.exports=passwordChangeLink

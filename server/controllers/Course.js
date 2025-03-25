@@ -2,9 +2,11 @@ const { uploadImage } = require("../utils/cloudanory");
 const Category = require("../models/Category");
 const User = require("../models/User");
 const Course = require("../models/Course");
-const convertSecondsToDuration=require("../utils/convertSecToDuration");
+const {convertSecondsToDuration}=require("../utils/convertSecToDuration");
 const Section = require("../models/Section");
 const SubSection = require("../models/SubSection");
+const { default: mongoose } = require("mongoose");
+const CourseProgress = require("../models/CourseProgress");
 
 exports.createCourse = async (req, res) => {
   try {
@@ -13,7 +15,7 @@ exports.createCourse = async (req, res) => {
       courseDescription,
       whatYouWillLearn,
       price,
-      Category,
+      category,
       language,
       instructions,
       status,
@@ -26,7 +28,7 @@ exports.createCourse = async (req, res) => {
       !courseDescription ||
       !whatYouWillLearn ||
       !price ||
-      !Category ||
+      !category ||
       !language ||
       !tag ||
       !instructions.length
@@ -49,7 +51,7 @@ exports.createCourse = async (req, res) => {
     }
 
     //check Category
-    const CategoryData = await Category.findById(Category);
+    const CategoryData = await Category.findById(new mongoose.Types.ObjectId(category.trim()));
     if (!CategoryData) {
       return res
         .status(401)
@@ -80,7 +82,7 @@ exports.createCourse = async (req, res) => {
       instructor: instructor._id,
       whatYouWillLearn,
       instructions,
-      status
+      status: status.trim()
     });
 
     //update user
@@ -110,7 +112,7 @@ exports.createCourse = async (req, res) => {
     console.log("error in creating course");
     res
       .status(500)
-      .json({ success: false, message: "Error in creating course" });
+      .json({ success: false, message: "Error in creating course", error: error.message });
   }
 };
 
@@ -229,8 +231,8 @@ exports.getCourseDetails = async (req, res) => {
           path: "additionalDetails",
         },
       })
-      .populate("Category")
-      .populate("RatingAndReview")
+      .populate("category")
+      .populate("ratingAndReviews")
       .populate({
         path: "courseContent",
         populate: {
@@ -385,6 +387,7 @@ exports.deleteCourse = async (req, res) => {
   try {
     const { courseId } = req.body
 
+    console.log("courseId", courseId)
     // Find the course
     const course = await Course.findById(courseId)
     if (!course) {

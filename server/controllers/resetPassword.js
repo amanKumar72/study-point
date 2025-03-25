@@ -4,6 +4,7 @@ const User=require("../models/User");
 const sendMail=require("../utils/nodemailer");
 const passwordChangeLink=require("../mail/templates/PasswordChangeLink.js");
 const bcrypt = require("bcrypt");
+const { log } = require("node:console");
 
 
 //reset passwordToken
@@ -25,27 +26,23 @@ exports.resetpasswordToken = async (req, res) => {
         message: "User not found",
       });
     }
-
     //generate a token
     const token = randomBytes(256).toString("hex");
-
     //update user
     const updatedUser = await User.findOneAndUpdate(
       { email },
       {
         token,
-        resetPasswordExpires: Date.now() + 15 * 60 * 1000,
+        resetPasswordExpires: Date.now() + 15*60*1000,
       },
       { new: true }
     );
-
     //send email
     sendMail(
       user.email,
       "Reset Password",
-      passwordChangeLink(user.email, user.name, token)
+      passwordChangeLink(user.email, user.firstName, token)
     );
-
     return res.status(200).json({
       success: true,
       message: "link sent successfully on the email",
@@ -54,7 +51,7 @@ exports.resetpasswordToken = async (req, res) => {
     console.log("error in resetting token password");
     return res
       .status(500)
-      .json({ message: "Error in resetting token password" });
+      .json({ message: "Error in resetting token password",success:false ,error:error.message});
   }
 };
 
@@ -86,6 +83,7 @@ exports.resetPassword = async (req, res) => {
         message: "token is invalid ",
       });
     }
+
 
     if (user.resetPasswordExpires < Date.now()) {
       return res.status(404).json({
