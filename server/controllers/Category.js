@@ -21,13 +21,13 @@ exports.createCategory = async (req, res) => {
 
 exports.showAllCategories = async (req, res) => {
   try {
-    const Category = await Category.find({}, { name: true, description: true });
-    return res.status(200).json({ success: true, Category });
+    const categories = await Category.find({}, { name: true, description: true });
+    return res.status(200).json({ success: true, categories });
   } catch (error) {
     console.log("error in showing all Category");
     res
       .status(500)
-      .json({ success: false, message: "Error in showing all Category" });
+      .json({ success: false, message: "Error in showing all Category",error:error.message });
   }
 };
 

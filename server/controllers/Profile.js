@@ -1,5 +1,6 @@
 const { isValidObjectId } = require("mongoose");
 const Profile = require("../models/Profile");
+const Course = require("../models/Course");
 const User = require("../models/User");
 const { uploadImage } = require("../utils/cloudanory");
 
@@ -7,6 +8,7 @@ exports.updateProfile = async (req, res) => {
   try {
     const { gender, dateOfBirth, about, address, contactNumber } = req.body;
     const id = req.user.id;
+    console.log(gender)
     if (
       !gender ||
       !dateOfBirth ||

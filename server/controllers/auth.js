@@ -48,7 +48,7 @@ exports.login = async (req, res) => {
     return res
       .cookie("token", token, {
         httpOnly: true,
-        expires: 3 * 24 * 60 * 60 * 1000,
+        expire: 3 * 24 * 60 * 60 * 1000,
       })
       .status(200)
       .json({
@@ -61,6 +61,7 @@ exports.login = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Failed to login",
+      error:error.message
     });
   }
 };
@@ -72,7 +73,7 @@ exports.signup = async (req, res) => {
     lastName,
     email,
     password,
-    confitmPassword,
+    confirmPassword,
     accountType,
     contactNumber,
     otp,
@@ -82,9 +83,8 @@ exports.signup = async (req, res) => {
     if (
       !email ||
       !password ||
-      !confitmPassword ||
+      !confirmPassword ||
       !firstName ||
-      !lastName ||
       !otp
     ) {
       return res.status(403).json({
@@ -94,7 +94,7 @@ exports.signup = async (req, res) => {
     }
 
     //check confirm pass and pass are same
-    if (password !== confitmPassword) {
+    if (password !== confirmPassword) {
       return res.status(400).json({
         success: false,
         message: "Password and confirm password must be same,try again",
@@ -115,12 +115,12 @@ exports.signup = async (req, res) => {
     const currentOtp = await Otp.find({ email })
       .sort({ createdAt: -1 })
       .limit(1);
-    if (currentOtp.length == 0) {
+    if (currentOtp[0]?.otp?.length == 0) {
       return res.status(400).json({
         success: false,
         message: "otp doesn't exists",
       });
-    } else if (currentOtp !== otp) {
+    } else if (currentOtp[0]?.otp !== otp) {
       return res.status(400).json({
         success: false,
         message: "otp doesn't match",
@@ -175,6 +175,13 @@ exports.changePassword = async (req, res) => {
       });
     }
 
+    if(newPassword==currentPassword){
+      return res.status(400).json({
+        success: false,
+        message: "New password and current password must be different,try again",
+      });
+    }
+
     //check if new password and confirm new password are the same
     if (newPassword !== confirmNewPassword) {
       return res.status(400).json({
@@ -182,8 +189,9 @@ exports.changePassword = async (req, res) => {
         message: "New password and confirm new password must be same,try again",
       });
     }
+
     //check if current user is present
-    const user = await User.findById(req.user._id);
+    const user = await User.findById(req.user.id);
     if (!user) {
       return res.status(401).json({
         success: false,
@@ -224,23 +232,6 @@ exports.changePassword = async (req, res) => {
 };
 
 //send otp
-generateOtp = async () => {
-  let otp = otpGenerator(6, {
-    upperCase: false,
-    lowerCase: false,
-    specialChars: false,
-  });
-  let isAvailable = await Otp.findOne({ otp });
-  while (isAvailable) {
-    otp = otpGenerator(6, {
-      upperCase: false,
-      lowerCase: false,
-      specialChars: false,
-    });
-    isAvailable = await Otp.findOne({ otp });
-  }
-  return otp;
-};
 
 exports.sendOtp = async (req, res) => {
   try {
@@ -252,10 +243,23 @@ exports.sendOtp = async (req, res) => {
         message: "User already registered",
       });
     }
-
+    
     //generate a unique otp
-    const otp = await generateOtp();
-
+    let otp = otpGenerator.generate(6, {
+      specialChars : false,
+      upperCaseAlphabets : false,
+      lowerCaseAlphabets: false,
+    });
+    let isAvailable = await Otp.findOne({ otp });
+    while (isAvailable) {
+      otp = otpGenerator.generate(6, {
+        specialChars: false,
+        upperCaseAlphabets: false,
+        lowerCaseAlphabets: false,
+      });
+      isAvailable = await Otp.findOne({ otp });
+    }
+    
     //save otp in database
     const otpDoc = new Otp({
       otp,
@@ -270,6 +274,7 @@ exports.sendOtp = async (req, res) => {
       otp,
     });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({
       success: false,
       message: "Failed to send otp",

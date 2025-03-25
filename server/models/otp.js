@@ -20,12 +20,12 @@ const otpSchema = new Schema({
 
 const sendVerificationMail = (mail, otp) => {
   try {
+    
     const info = sendMail(
       mail,
       "Verify your email for study-point",
       emailTemplate(otp)
     );
-    console.log("Email sent successfully", info);
   } catch (error) {
     console.error("Error while sending verification email:", error.message);
     console.error(error);
@@ -35,7 +35,7 @@ const sendVerificationMail = (mail, otp) => {
 otpSchema.pre("save", async function (next) {
   //send email if new doc is created
   if (this.isNew) {
-    await sendVerificationMail(this.email, this.otp);
+     sendVerificationMail(this.email, this.otp);
   }
   next();
 });

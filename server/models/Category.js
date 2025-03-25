@@ -14,4 +14,5 @@ const CategorySchema = new Schema({
     ref: 'Course'
   }]
 });
-const Tag = mongoose.model("Category", CategorySchema);
+const Category = mongoose.model("Category", CategorySchema);
+module.exports = Category
