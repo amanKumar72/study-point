@@ -1,11 +1,5 @@
 const cloudinary = require("cloudinary").v2;
 
-// cloudinary.config({
-//     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-//     api_key: process.env.CLOUDINARY_API_KEY,
-//     api_secret: process.env.CLOUDINARY_API_SECRET,
-//   });
-
 const uploadImage = async (file, folder, height, quality) => {
   try {
     const options = { folder };
@@ -23,4 +17,24 @@ const uploadImage = async (file, folder, height, quality) => {
   }
 };
 
-module.exports = { uploadImage };
+const deleteImageByUrl = async (secureUrl) => {
+  try {
+      // Extract public_id from the secure URL
+      const parts = secureUrl.split("/");
+      const fileName = parts[parts.length - 1]; // e.g., "example.jpg"
+      const folder = parts[parts.length - 2];   // e.g., "uploads"
+
+      const publicId = `${folder}/${fileName.split(".")[0]}`; // Remove file extension
+
+      // Delete image from Cloudinary
+      const result = await cloudinary.uploader.destroy(publicId);
+      console.log("Delete Result:", result);
+
+      return result;
+  } catch (error) {
+      console.error("Error deleting image:", error);
+      throw error;
+  }
+};
+
+module.exports = { uploadImage, deleteImageByUrl };

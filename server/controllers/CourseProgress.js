@@ -83,7 +83,7 @@ exports.getProgressPercentage = async (req, res) => {
     console.log(courseProgress, userId)
     let lectures = 0
     courseProgress.courseID.courseContent?.forEach((sec) => {
-      lectures += sec.subSection.length || 0
+      lectures += sec.subSections.length || 0
     })
 
     let progressPercentage =

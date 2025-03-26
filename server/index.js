@@ -30,8 +30,6 @@ const { cloudinaryConnect } = require("./config/cloudanory");
 connectDB();
 cloudinaryConnect();
 
-
-
 // handle routes
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/course", courseRoute);

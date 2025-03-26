@@ -125,6 +125,7 @@ exports.editCourse = async (req, res) => {
     if (!course) {
       return res.status(404).json({ success: false, message: "Course not found" });
     }
+console.log(updates);
 
     // If Thumbnail Image is found, update it
     if (req.files) {
@@ -141,7 +142,10 @@ exports.editCourse = async (req, res) => {
     for (const key in updates) {
       if (updates.hasOwnProperty(key)) {
         if (key === "tag" || key === "instructions") {
-          course[key] = JSON.parse(updates[key]);
+          course[key]=[]
+          for(const item of updates[key]){
+            course[key].push(item);
+          }
         } else {
           course[key] = updates[key];
         }
@@ -260,9 +264,11 @@ exports.getCourseDetails = async (req, res) => {
       });
     }
 
+    console.log(courseDetails);
+
     let totalDurationInSeconds = 0;
-    courseDetails.courseContent.forEach((content) => {
-      content.subSection.forEach((subSection) => {
+    courseDetails?.courseContent?.forEach((content) => {
+      content?.subSections?.forEach((subSection) => {
         const timeDurationInSeconds = parseInt(subSection.timeDuration);
         totalDurationInSeconds += timeDurationInSeconds;
       });
@@ -330,8 +336,8 @@ exports.getFullCourseDetails = async (req, res) => {
     }
 
     let totalDurationInSeconds = 0
-    courseDetails.courseContent.forEach((content) => {
-      content.subSection.forEach((subSection) => {
+    courseDetails?.courseContent?.forEach((content) => {
+      content?.subSections?.forEach((subSection) => {
         const timeDurationInSeconds = parseInt(subSection.timeDuration)
         totalDurationInSeconds += timeDurationInSeconds
       })
@@ -386,10 +392,10 @@ exports.getInstructorCourses = async (req, res) => {
 exports.deleteCourse = async (req, res) => {
   try {
     const { courseId } = req.body
-
-    console.log("courseId", courseId)
+    const id=req.user.id
     // Find the course
     const course = await Course.findById(courseId)
+    const user=await User.findById(id)
     if (!course) {
       return res.status(404).json({ message: "Course not found" })
     }
@@ -420,6 +426,10 @@ exports.deleteCourse = async (req, res) => {
 
     // Delete the course
     await Course.findByIdAndDelete(courseId)
+
+    await User.findByIdAndUpdate(id, {
+      $pull: { courses: courseId },
+    })
 
     return res.status(200).json({
       success: true,
