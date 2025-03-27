@@ -7,16 +7,16 @@ const cors = require("cors");
 const fileUpload = require("express-fileupload");
 
 //middlewares
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }))
-app.use(cookieParse());
-app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
 app.use(
   fileUpload({
     useTempFiles: true,
     tempFileDir: "/tmp",
   })
 );
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }))
+app.use(cookieParse());
+app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
 
 //routes
 const userRoute = require("./routes/User");
@@ -42,3 +42,4 @@ app.get("/", (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+

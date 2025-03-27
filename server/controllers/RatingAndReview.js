@@ -1,7 +1,7 @@
 const RatingAndReview = require("../models/RatingAndReview");
 const User = require("../models/User");
 const Course = require("../models/Course");
-const { default: mongoose } = require("mongoose");
+const { default: mongoose, ObjectId } = require("mongoose");
 
 exports.createRating = async (req, res) => {
   try {
@@ -14,16 +14,18 @@ exports.createRating = async (req, res) => {
         message: "rating,review,userId and courseId are required",
       });
     }
+
+    console.log(userId);
+
     //find the course and user is enrolled in the course
     const course = await Course.findOne({
-      _id: courseId,
-      studentsEnroled: { $elemMatch: { $eq: userId } },
+      _id: new mongoose.Types.ObjectId(courseId),
     });
 
-    if (!course) {
+    if (!course || !course?.studentsEnrolled.includes(userId)) {
       return res.status(404).json({
         success: false,
-        message: "Course is found with the user",
+        message: "Course not found with the user",
       });
     }
     const user = await User.findById(userId);
@@ -120,8 +122,9 @@ exports.getAllRatingReview = async (req, res) => {
       const ratings = await RatingAndReview.find({
         course: new mongoose.Types.ObjectId(courseId),
       })
-        .populate({ path: "User" ,select:"firstName lastName email image"})
-        .populate({ path: "Course" ,select:"courseName"}).exec();
+        .populate({ path: "User", select: "firstName lastName email image" })
+        .populate({ path: "Course", select: "courseName" })
+        .exec();
       return res.status(200).json({
         success: true,
         message: "Ratings of course fetched successfully",
@@ -129,8 +132,9 @@ exports.getAllRatingReview = async (req, res) => {
       });
     } else {
       const ratings = await RatingAndReview.find({})
-        .populate({ path: "User" ,select:"firstName lastName email image"})
-        .populate({ path: "Course" ,select:"courseName"}).exec();
+        .populate({ path: "user", select: "firstName lastName email image" })
+        .populate({ path: "course", select: "courseName" })
+        .exec();
       return res.status(200).json({
         success: true,
         message: "Ratings fetched successfully",

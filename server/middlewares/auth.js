@@ -40,8 +40,8 @@ const auth = (req, res, next) => {
     //extracting token
     const token =
       req.cookies.token ||
-      req.body.token ||
-      req.header("Authorization").replace("Bearer ", "");
+      req.body?.token ||
+      req.header("Authorization")?.replace("Bearer ", "");
     if (!token) {
       return res.status(401).json({
         success: false,
@@ -63,7 +63,7 @@ const auth = (req, res, next) => {
   } catch (error) {
     res
       .status(500)
-      .json({ message: "Something went wrong while validating the token" });
+      .json({ message: "Something went wrong while validating the token",error:error.message });
   }
 };
 
