@@ -23,6 +23,7 @@ const userRoute = require("./routes/User");
 const courseRoute = require("./routes/Course");
 const paymentRoute = require("./routes/Payment");
 const profileRoute = require("./routes/Profile");
+const contactController=require("./routes/contact")
 
 //connections
 const connectDB = require("./config/database");
@@ -33,8 +34,10 @@ cloudinaryConnect();
 // handle routes
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/course", courseRoute);
+//left for testing -> payment
 app.use("/api/v1/payment", paymentRoute);
 app.use("/api/v1/profile", profileRoute);
+app.use("/api/v1/contactUs", contactController);
 
 app.get("/", (req, res) => {
   res.send("Your server is running");

@@ -2,10 +2,10 @@ require("dotenv").config();
 exports.contactUsEmail = (
     email,
     firstname,
-    lastname,
+    lastname="",
     message,
     phoneNo,
-    countrycode
+    countrycode=91
   ) => {
     return `<!DOCTYPE html>
     <html>
