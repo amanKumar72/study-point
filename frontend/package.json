@@ -8,13 +8,15 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "server":"cd ../server && npm run dev",
-    "dev":"concurrently -n \"client,server\" -c \"bgBlue,bgYellow\" \"npm run start\" \"npm run server\" "
+    "server": "cd ../server && npm run dev",
+    "dev": "concurrently -n \"client,server\" -c \"bgBlue,bgYellow\" \"npm run start\" \"npm run server\" "
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.0.17",
     "concurrently": "^9.1.2",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "tailwindcss": "^4.0.17"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
