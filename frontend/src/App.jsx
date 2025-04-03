@@ -3,8 +3,9 @@ import Home from "./pages/Home"
 
 function App() {
 
-  return (
-    <div className=" bg-[#fafafa] dark:bg-[#000814] text-[#000814] dark:text-[#fafafa]">
+  return (  
+    <div className="
+    flex min-h-screen w-screen flex-col bg-[#000814] text-[#fafafa] font-inter">
       <Routes>
         <Route path="/" element={<Home />} ></Route>
       </Routes>

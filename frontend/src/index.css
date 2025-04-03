@@ -142,3 +142,9 @@
 } */
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+.bg_cross{
+  background: url("./assets/Images/frame.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}

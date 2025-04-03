@@ -14,12 +14,11 @@ const CodeBlocks = ({
   codingText,
   codingColor,
 }) => {
-    console.log(codingColor)
+  const codingColorClass = codingColor ? `text-yellow-300` : "text-[#fafafa]";
   const pos =
     position == "row" ? "flex-col md:flex-row" : "flex-col md:flex-row-reverse";
   return (
     <div className={`flex ${pos} gap-4 w-11/12 my-2 md:my-8 relative`}>
-      <span className="absolute bg-radial  "></span>
       <div className="md:w-[50%] feature-card flex flex-col gap-2 items-center ">
         <h1 className="text-xl md:text-3xl font-bold text-center md:text-start ">
           {heading}
@@ -28,17 +27,21 @@ const CodeBlocks = ({
           {description}
         </h2>
         <div className="links flex gap-5 my-5 ">
-          <Button bg="[#fed60b]" to={to1} text={text1} textColor="black" />
-          <Button bg="gray-700" to={to2} text={text2} textColor="white" />
+          <Button active={true} to={to1}>
+            <div>{text1}</div>
+          </Button>
+          <Button active={false} to={to2}>
+            <div>{text2}</div>
+          </Button>
         </div>
       </div>
       <div
-        className="md:w-[50%] h-fit flex text-[12px] py-4  relative 
+        className=" w-full md:w-[50%] h-fit flex text-[12px] py-4  relative 
           rounded-lg bg-clip-padding backdrop-filter dark:bg-neutral-800/30 bg-white/30
          backdrop-blur-sm bg-opacity-10 border border-gray-100
  "
       >
-      <div className="absolute w-80 h-50 inset-0 bg-gradient-to-r from-purple-500 to-pink-500 blur-3xl opacity-40"></div>
+        <div className="absolute w-80 h-50 inset-0 bg-gradient-to-r from-purple-500 to-pink-500 blur-3xl opacity-40"></div>
         <div className="w-[10%] text-center flex flex-col font-semibold">
           <p>1</p>
           <p>2</p>
@@ -55,7 +58,7 @@ const CodeBlocks = ({
           <p>13</p>
         </div>
         <div
-          className={`w-[90%] flex-col gap-2 font-semibold text-${codingColor}  `}
+          className={`w-[80%] flex-col gap-2 font-semibold ${codingColorClass}`}
         >
           <TypeAnimation
             sequence={[codingText, 1000, ""]}
