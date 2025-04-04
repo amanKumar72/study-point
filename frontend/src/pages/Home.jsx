@@ -10,6 +10,9 @@ import Logo2 from "../assets/TimeLineLogo/Logo2.svg";
 import Logo3 from "../assets/TimeLineLogo/Logo3.svg";
 import Logo4 from "../assets/TimeLineLogo/Logo4.svg";
 import TimeLineImage from "../assets/Images/TimeLineImage.png";
+import Know_your_progress from "../assets/Images/Know_your_progress.png"
+import Compare_with_others from "../assets/Images/Compare_with_others.png"
+import Plan_your_lessons from "../assets/Images/Plan_your_lessons.png"
 
 const s2Data = [
   {
@@ -38,7 +41,7 @@ function Home() {
   return (
     <main className="home overflow-y-hidden">
       {/* <ThemeButton /> */}
-      <div className=" relative h-fit mx-auto flex flex-col w-11/12 justify-between items-center">
+      <section className=" relative h-fit mx-auto flex flex-col justify-between items-center">
         <Link to={"/signup"} className="w-52 my-5">
           <button className="w-full relative hover:scale-105 bg-gray-700 hover:bg-gray-800  transition-all duration-300  font-bold py-1 px-3 rounded-xl shadow-gray-500 shadow-md  ">
             <div className="flex items-center mr-3">Became an Instructor</div>
@@ -65,7 +68,7 @@ function Home() {
         <video loop muted autoPlay className="w-10/12 shadow-white shadow-md ">
           <source src={Banner} type="video/mp4" />
         </video>
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col items-center gap-5">
           <CodeBlocks
             position={"row"}
             heading={
@@ -117,8 +120,8 @@ function Home() {
 </html>`}
           />
         </div>
-      </div>
-      <div className="section2 bg-[#fafafa] text-[#000814] w-screen mx-auto my-8">
+      </section>
+      <section className="section2 bg-[#fafafa] text-[#000814]  mx-auto my-8">
         <div className="bg_cross h-[310px]">
           <div className="h-[200px] w-full "></div>
           <div className="buttons my-5  flex gap-5 md:gap-15  items-center w-11/12 justify-center">
@@ -180,7 +183,26 @@ function Home() {
             </div>
           </div>
         </div>
-      </div>
+        <div className="flex flex-col items-center p-5 ">
+          <div className="md:px-15">
+            <h1 className=" text-3xl  md:text-5xl text-center  ">
+            Your swiss knife for <HighLighedText text={"learning any language"}></HighLighedText>
+            </h1>
+            <h3 className="tex--xl md:text-2xl  text-center mt-3">Using spin making learning multiple languages easy. with 20+ languages realistic voice-over, progress tracking, custom schedule and more.
+            </h3>
+          </div>
+          <div  className="flex md:flex-row flex-col p-10 ">
+            <img src={Know_your_progress} alt=""  className="md:w-1/3  xl:w-full object-contain "/>
+            <img src={Compare_with_others} alt="" className="md:w-1/3  xl:w-full object-contain "/>
+            <img src={Plan_your_lessons} alt="" className="md:w-1/3  xl:w-full object-contain " />
+          </div>
+        </div>
+       <div className="flex justify-center">
+        <Button active={true} to="/signup">
+          <div>Learn more</div>
+        </Button>
+       </div>
+      </section>
     </main>
   );
 }

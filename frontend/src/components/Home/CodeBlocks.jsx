@@ -18,7 +18,7 @@ const CodeBlocks = ({
   const pos =
     position == "row" ? "flex-col md:flex-row" : "flex-col md:flex-row-reverse";
   return (
-    <div className={`flex ${pos} gap-4 w-11/12 my-2 md:my-8 relative`}>
+    <div className={`flex ${pos} justify-between gap-4 w-11/12 my-2 md:my-8 relative`}>
       <div className="md:w-[50%] feature-card flex flex-col gap-2 items-center ">
         <h1 className="text-xl md:text-3xl font-bold text-center md:text-start ">
           {heading}
@@ -36,7 +36,7 @@ const CodeBlocks = ({
         </div>
       </div>
       <div
-        className=" w-full md:w-[50%] h-fit flex text-[12px] py-4  relative 
+        className=" w-full md:w-[520px] h-fit flex text-[12px] py-4  relative 
           rounded-lg bg-clip-padding backdrop-filter dark:bg-neutral-800/30 bg-white/30
          backdrop-blur-sm bg-opacity-10 border border-gray-100
  "
@@ -58,7 +58,7 @@ const CodeBlocks = ({
           <p>13</p>
         </div>
         <div
-          className={`w-[80%] flex-col gap-2 font-semibold ${codingColorClass}`}
+          className={`w-[90%] flex-col gap-2 font-semibold ${codingColorClass}`}
         >
           <TypeAnimation
             sequence={[codingText, 1000, ""]}
