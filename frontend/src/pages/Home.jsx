@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa";
 import Button from "../components/Home/Button";
@@ -10,9 +10,24 @@ import Logo2 from "../assets/TimeLineLogo/Logo2.svg";
 import Logo3 from "../assets/TimeLineLogo/Logo3.svg";
 import Logo4 from "../assets/TimeLineLogo/Logo4.svg";
 import TimeLineImage from "../assets/Images/TimeLineImage.png";
-import Know_your_progress from "../assets/Images/Know_your_progress.png"
-import Compare_with_others from "../assets/Images/Compare_with_others.png"
-import Plan_your_lessons from "../assets/Images/Plan_your_lessons.png"
+import Know_your_progress from "../assets/Images/Know_your_progress.png";
+import Instructor from "../assets/Images/Instructor.png";
+import Compare_with_others from "../assets/Images/Compare_with_others.png";
+import Plan_your_lessons from "../assets/Images/Plan_your_lessons.png";
+import ReviewCard from "../components/Home/ReviewCard";
+import { reviewApis } from "../services/apis";
+
+// Import Swiper React components
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/free-mode";
+import "swiper/css/pagination";
+// Icons
+import { FaStar } from "react-icons/fa";
+// Import required modules
+import { Autoplay, FreeMode, Pagination } from "swiper/modules";
 
 const s2Data = [
   {
@@ -38,6 +53,15 @@ const s2Data = [
 ];
 
 function Home() {
+  const [reviews, setReviews] = useState(null);
+  useEffect(() => {
+    fetch(reviewApis.getReviews)
+      .then((res) => res.json())
+      .then((data) => {
+        setReviews(data?.ratings);
+      })
+      .catch((err) => console.log("err", err));
+  }, []);
   return (
     <main className="home overflow-y-hidden">
       {/* <ThemeButton /> */}
@@ -121,7 +145,7 @@ function Home() {
           />
         </div>
       </section>
-      <section className="section2 bg-[#fafafa] text-[#000814]  mx-auto my-8">
+      <section className="section2 bg-[#fafafa] text-[#000814] my-8">
         <div className="bg_cross h-[310px]">
           <div className="h-[200px] w-full "></div>
           <div className="buttons my-5  flex gap-5 md:gap-15  items-center w-11/12 justify-center">
@@ -186,22 +210,99 @@ function Home() {
         <div className="flex flex-col items-center p-5 ">
           <div className="md:px-15">
             <h1 className=" text-3xl  md:text-5xl text-center  ">
-            Your swiss knife for <HighLighedText text={"learning any language"}></HighLighedText>
+              Your swiss knife for{" "}
+              <HighLighedText text={"learning any language"}></HighLighedText>
             </h1>
-            <h3 className="tex--xl md:text-2xl  text-center mt-3">Using spin making learning multiple languages easy. with 20+ languages realistic voice-over, progress tracking, custom schedule and more.
+            <h3 className="tex--xl md:text-2xl  text-center mt-3">
+              Using spin making learning multiple languages easy. with 20+
+              languages realistic voice-over, progress tracking, custom schedule
+              and more.
             </h3>
           </div>
-          <div  className="flex md:flex-row flex-col p-10 ">
-            <img src={Know_your_progress} alt=""  className="md:w-1/3  xl:w-full object-contain "/>
-            <img src={Compare_with_others} alt="" className="md:w-1/3  xl:w-full object-contain "/>
-            <img src={Plan_your_lessons} alt="" className="md:w-1/3  xl:w-full object-contain " />
+          <div className="flex md:flex-row flex-col p-10 ">
+            <img
+              src={Know_your_progress}
+              alt=""
+              className="md:w-1/3  xl:w-full object-contain "
+            />
+            <img
+              src={Compare_with_others}
+              alt=""
+              className="md:w-1/3  xl:w-full object-contain "
+            />
+            <img
+              src={Plan_your_lessons}
+              alt=""
+              className="md:w-1/3  xl:w-full object-contain "
+            />
           </div>
         </div>
-       <div className="flex justify-center">
-        <Button active={true} to="/signup">
-          <div>Learn more</div>
-        </Button>
-       </div>
+        <div className="flex justify-center p-5 md:p-10 ">
+          <Button active={true} to="/signup">
+            <div>Learn more</div>
+          </Button>
+        </div>
+      </section>
+      <section className="h-fit mx-auto flex flex-col gap-10 p-10 md:flex-row justify-between items-center">
+        <div className="shadow-xl shadow-cyan-400 ">
+          <img src={Instructor} alt="" />
+        </div>
+        <div className="flex flex-col gap-10">
+          <h1 className=" text-3xl  md:text-5xl ">
+            Became an <HighLighedText text={"Instrucor"}></HighLighedText>
+          </h1>
+          <h2 className="text-md md:text-lg  text-gray-300 ">
+            Instructors from around the world teach millions of students on
+            StudyNotion. We provide the tools and skills to teach what you love.
+          </h2>
+          <Button active={true} to={"/signup"}>
+            <div className="flex relative w-48 ">
+              Start Teaching Today{" "}
+              <FaArrowRight className=" absolute right-2 top-2"></FaArrowRight>
+            </div>
+          </Button>
+        </div>
+      </section>
+      <section className="review flex flex-col items-center gap-5 md:gap-10 lg:gap-15  ">
+        <h1 className=" text-3xl md:text-5xl text-center ">
+          Reviews from learners
+        </h1>
+        <Swiper
+          breakpoints={{
+            640: {
+              slidesPerView: 2,
+              spaceBetween:10
+            },
+            830: {
+              slidesPerView: 3,
+              spaceBetween:10
+            },
+            1100: {
+              slidesPerView: 4,
+              spaceBetween:10
+            },
+            1440: {
+              slidesPerView: 5,
+              spaceBetween:15
+            },
+          }}
+          loop={true}
+          freeMode={true}
+          autoplay={{
+            delay: 1500,
+            disableOnInteraction: false,
+          }}
+          modules={[FreeMode, Pagination, Autoplay]}
+          className="w-full "
+        >
+          {reviews?.map((review, index) => {
+            return (
+              <SwiperSlide key={index} >
+                <ReviewCard review={review} />
+              </SwiperSlide>
+            );
+          })}
+        </Swiper>
       </section>
     </main>
   );

@@ -16,7 +16,7 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParse());
-app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
+app.use(cors({ origin: process.env.FRONTEND_URL}));
 
 //routes
 const userRoute = require("./routes/User");

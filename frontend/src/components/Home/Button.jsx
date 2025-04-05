@@ -7,7 +7,7 @@ const Button = ({active,to,children}) => {
   return (
     <Link
       to={to}
-      className={`${classes} rounded  font-semibold px-2 py-2 hover:scale-105 transition-all duration-300 shadow-zinc-600  shadow-md`}
+      className={`${classes} rounded  w-fit font-semibold px-2 py-2 hover:scale-105 transition-all duration-300 shadow-zinc-600  shadow-md`}
     >
      {children}
     </Link>
