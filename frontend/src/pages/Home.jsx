@@ -4,6 +4,7 @@ import { FaArrowRight } from "react-icons/fa";
 import Button from "../components/Home/Button";
 import Banner from "../assets/Images/banner.mp4";
 import HighLighedText from "../components/Home/HighLighedText";
+import Footer from "../components/common/Footer";
 import CodeBlocks from "../components/Home/CodeBlocks";
 import Logo1 from "../assets/TimeLineLogo/Logo1.svg";
 import Logo2 from "../assets/TimeLineLogo/Logo2.svg";
@@ -28,6 +29,7 @@ import "swiper/css/pagination";
 import { FaStar } from "react-icons/fa";
 // Import required modules
 import { Autoplay, FreeMode, Pagination } from "swiper/modules";
+import ExploreMore from "../components/Home/ExploreMore";
 
 const s2Data = [
   {
@@ -243,6 +245,7 @@ function Home() {
           </Button>
         </div>
       </section>
+      <ExploreMore></ExploreMore>
       <section className="h-fit mx-auto flex flex-col gap-10 p-10 md:flex-row justify-between items-center">
         <div className="shadow-xl shadow-cyan-400 ">
           <img src={Instructor} alt="" />
@@ -304,6 +307,7 @@ function Home() {
           })}
         </Swiper>
       </section>
+      <Footer />
     </main>
   );
 }
