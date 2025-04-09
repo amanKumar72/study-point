@@ -25,8 +25,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
-// Icons
-import { FaStar } from "react-icons/fa";
 // Import required modules
 import { Autoplay, FreeMode, Pagination } from "swiper/modules";
 import ExploreMore from "../components/Home/ExploreMore";
