@@ -6,3 +6,12 @@ export const reviewApis={
     createRating: `${BASE_URL}/api/v1/course/createRating`,
 
 }
+
+export const authApis={
+    login:`${BASE_URL}/api/v1/user/login`,
+    signup:`${BASE_URL}/api/v1/user/signup`,
+    sendOtp:`${BASE_URL}/api/v1/user/send-otp`,
+    resetPasswordToken:`${BASE_URL}/api/v1/user/reset-password-token`,
+    resetPassword:`${BASE_URL}/api/v1/user/reset-password`,
+    changePassword:`${BASE_URL}/api/v1/user/change-password`,
+}

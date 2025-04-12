@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import signup from "../assets/Images/signup.webp";
 import HighLighedText from "../components/Home/HighLighedText";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const SignUp = () => {
   const [currentAccountType, setCurrentAccountType] = useState("Student");
@@ -16,6 +17,11 @@ const SignUp = () => {
   const handleChangeShowConfirmPassword = (e) => {
     e.preventDefault();
     setShowConfirmPassword(!showConfirmPassword);
+  };
+
+  const handleForm = (data) => {
+    const formData = Object.fromEntries(data.entries());
+    console.log(formData);
   };
 
   return (
@@ -54,7 +60,10 @@ const SignUp = () => {
             Instructor
           </p>
         </div>
-        <form className="inputs flex flex-col gap-2 w-full md:w-fit">
+        <form
+          action={handleForm}
+          className="inputs flex flex-col gap-2 w-full md:w-fit"
+        >
           <div className="name flex flex-col md:flex-row  gap-2">
             <div className="firstName flex  flex-col gap-2">
               <label htmlFor="firstName">First Name</label>
@@ -130,6 +139,10 @@ const SignUp = () => {
             value="Sign Up"
             className="bg-yellow-300 text-xl my-5 text-gray-700 cursor-pointer px-14 py-2 w-64 self-center rounded-lg"
           />
+          <Link to="/login" className="text-blue-500 self-center underline">
+            Already have an account ? Login now
+          </Link>
+          x
         </form>
       </div>
       <div className="image md:w-[30%]">
