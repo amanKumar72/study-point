@@ -7,7 +7,7 @@ import { authApis } from "../services/apis";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [error,setError ]=useState({})
+  const [error, setError] = useState("");
 
   const handleChangeShowPassword = (e) => {
     e.preventDefault();
@@ -15,22 +15,36 @@ const Login = () => {
   };
 
   const handleForm = (data) => {
-    const formData = Object.fromEntries(data.entries());
-    
-    
-    console.log(formData);
+    const { email, password } = Object.fromEntries(data.entries());
+    console.log(email, password);
+    if (!email || !password) {
+      setError("email and password are mandatory");
+    }
+    fetch(authApis.login, {
+      method: "POST",
+      body: JSON.stringify({ email, password }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.success == false) {
+          setError(data.message || data.error || "Failed to send OTP");
+          
+        }
+      })
+      .catch((err) => setError(err?.message || "unable to login"));
   };
-
-
 
   return (
     <section className="flex flex-col md:flex-row gap-10 items-center  w-full p-5 md:p-10 lg:p-25 ">
       <div className="form flex flex-col gap-5 md:w-[70%]">
         <div className="texts flex flex-col gap-4 ">
-          <h1 className=" text-xl  md:text-2xl lg:text-4xl text-bold ">
+          <h1 className=" text-xl  md:text-2xl lg:text-4xl font-bold ">
             Welcome Back
           </h1>
-          <h2 className=" text-md md:text-lg lg:text-xl text-semibold text-gray-300">
+          <h2 className=" text-md md:text-lg lg:text-xl font-semibold text-gray-300">
             Build skills for today, tomorrow, and beyond.
           </h2>
           <h3 className="text-md md:text-lg lg:text-xl italic">
@@ -69,12 +83,19 @@ const Login = () => {
               </button>
             </div>
           </div>
+          {error && (
+            <p className="text-red-500 text-md md:text-lg lg:text-xl">
+              {error}
+            </p>
+          )}
           <input
             type="submit"
             value="Login"
             className="bg-yellow-300 text-xl my-5 text-gray-700 cursor-pointer px-14 py-2 w-64 self-center rounded-lg"
           />
-          <Link to='/signup' className="text-blue-500 self-center underline">Not have an account ? create now</Link>
+          <Link to="/signup" className="text-blue-500 self-center underline">
+            Not have an account ? create now
+          </Link>
         </form>
       </div>
       <div className="image md:w-[30%]">
