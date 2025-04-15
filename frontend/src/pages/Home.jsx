@@ -28,6 +28,7 @@ import "swiper/css/pagination";
 // Import required modules
 import { Autoplay, FreeMode, Pagination } from "swiper/modules";
 import ExploreMore from "../components/Home/ExploreMore";
+import NavBar from "../components/common/NavBar";
 
 const s2Data = [
   {
@@ -63,7 +64,8 @@ function Home() {
       .catch((err) => console.log("err", err));
   }, []);
   return (
-    <main className="home overflow-y-hidden">
+    <main className="home overflow-x-hidden ">
+      <NavBar/>
       {/* <ThemeButton /> */}
       <section className=" relative h-fit mx-auto flex flex-col justify-between items-center">
         <Link to={"/signup"} className="w-52 my-5">

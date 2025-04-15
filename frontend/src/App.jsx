@@ -3,6 +3,8 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import OTPVerify from "./pages/OTPVerify";
+import ContactUs from "./pages/ContactUs";
+import AboutUs from "./pages/AboutUs";
 
 function App() {
   return (
@@ -14,6 +16,8 @@ function App() {
         <Route path="/" element={<Home />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>
+        <Route path="/aboutUs" element={<AboutUs />}></Route>
+        <Route path="/contactUs" element={<ContactUs />}></Route>
         <Route path="/otp" element={<OTPVerify />}></Route>
       </Routes>
     </div>

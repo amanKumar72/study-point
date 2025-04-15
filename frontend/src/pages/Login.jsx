@@ -4,6 +4,7 @@ import HighLighedText from "../components/Home/HighLighedText";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { authApis } from "../services/apis";
+import NavBar from "../components/common/NavBar";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -38,6 +39,10 @@ const Login = () => {
   };
 
   return (
+    <div className="w-full">
+
+<NavBar />
+
     <section className="flex flex-col md:flex-row gap-10 items-center  w-full p-5 md:p-10 lg:p-25 ">
       <div className="form flex flex-col gap-5 md:w-[70%]">
         <div className="texts flex flex-col gap-4 ">
@@ -102,6 +107,7 @@ const Login = () => {
         <img src={login} alt="" />
       </div>
     </section>
+    </div>
   );
 };
 
