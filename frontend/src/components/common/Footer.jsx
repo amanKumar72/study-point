@@ -35,13 +35,13 @@ const Footer = () => {
                 Company
               </h1>
               <div className="flex flex-col gap-2">
-                {["About", "Careers", "Affiliates"].map((ele, i) => {
+                {["About Us", "Careers", "Affiliates"].map((ele, i) => {
                   return (
                     <div
                       key={i}
                       className="text-[14px] cursor-pointer hover:text-richblack-50 transition-all duration-200"
                     >
-                      <Link to={ele.toLowerCase()}>{ele}</Link>
+                      <Link to={`/${ele.split(" ").join("").toLowerCase()}`}>{ele}</Link>
                     </div>
                   );
                 })}
@@ -172,7 +172,7 @@ const Footer = () => {
             })}
           </div>
 
-          <div className="text-center">Made with ❤️ CodeHelp © 2023 Studynotion</div>
+          <div className="text-center">Made with ❤️ by Aman Kumar © 2025 Study-Point</div>
         </div>
       </div>
     </div>
