@@ -8,8 +8,10 @@ import aboutUs3 from "../assets/Images/aboutus3.webp";
 import Reviews from "../components/common/Reviews";
 import { useForm } from "react-hook-form";
 import countryCodes from "../data/countrycode.json";
+import { useNavigate } from "react-router-dom";
 
 const images = [aboutUs1, aboutUs2, aboutUs3];
+
 const specifications = [
   { value: "5K", title: "Active Students" },
   { value: "20+", title: "Mentors" },
@@ -17,14 +19,24 @@ const specifications = [
   { value: "50+", title: "Awards" },
 ];
 const AboutUs = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
-    
+
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {console.log(data)};
+  const onSubmit = (data) => {
+    console.log(data);
+    navigate("/thank-you", {
+      state: {
+        ...data,
+        message:
+          "We’ve received your message and will get back to you as soon as possible.",
+      },
+    });
+  };
   return (
     <main className="w-full">
       <NavBar />
@@ -186,7 +198,10 @@ const AboutUs = () => {
             <div className="phone flex flex-col gap-2">
               <label htmlFor="phone">Phone Number</label>
               <div className="flex gap-2">
-                <select {...register("countryCode")} className="bg-gray-800 px-1 md:px-2 lg:px-4  py-2 text-md md:text-lg lg:text-2xl w-[45%] md:w-[30%]  rounded-lg text-gray-200">
+                <select
+                  {...register("countryCode")}
+                  className="bg-gray-800 px-1 md:px-2 lg:px-4  py-2 text-md md:text-lg lg:text-2xl w-[45%] md:w-[30%]  rounded-lg text-gray-200"
+                >
                   {countryCodes.map((country, index) => (
                     <option key={index} value={country.code}>
                       {country.code} - {country.name}

@@ -3,10 +3,12 @@ import { FaArrowLeft } from "react-icons/fa";
 import { CiTimer } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { authApis } from "../services/apis";
+import { useNavigate } from "react-router-dom";
 
 const OTPVerify = ({ formData }) => {
   const [otp, setOtp] = useState(new Array(6).fill(""));
   const [error, setError] = useState("");
+  const navigate = useNavigate();
   const inputRefs = useRef([]);
   const handleChange = (element, index) => {
     const value = element.value.replace(/[^0-9]/g, ""); // Only allow numbers
@@ -50,6 +52,13 @@ const OTPVerify = ({ formData }) => {
             resData.error || resData.message || "Failed to verify OTP"
           );
         }
+        navigate("/thank-you", {
+          state: {
+            ...formData,title:"🎉 Account Created Successfully!",
+            message:
+              "Welcome aboard! Your account has been created successfully. You can now log in and start exploring all the features we offer. We're excited to have you with us!",
+          },
+        });
       })
       .catch((err) => {
         setError(err?.message || "Failed to verify OTP");

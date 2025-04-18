@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import NavBar from "../components/common/NavBar";
 import Footer from "../components/common/Footer";
 import Reviews from "../components/common/Reviews";
@@ -28,6 +29,7 @@ const data = [
 ];
 
 const ContactUs = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -37,6 +39,13 @@ const ContactUs = () => {
 
   const onSubmit = (data) => {
     console.log(data);
+    navigate("/thank-you", {
+      state: {
+        ...data,
+        message:
+          "We’ve received your message and will get back to you as soon as possible.",
+      },
+    });
   };
   return (
     <div className="w-full">

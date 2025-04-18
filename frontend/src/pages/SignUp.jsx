@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { authApis } from "../services/apis";
 import OTPVerify from "./OTPVerify";
 import NavBar from "../components/common/NavBar";
+import Footer from "../components/common/Footer";
 
 const SignUp = () => {
   const [currentAccountType, setCurrentAccountType] = useState("Student");
@@ -226,6 +227,7 @@ const SignUp = () => {
             <img src={signup} alt="" />
           </div>
         </section>
+        <Footer/>
       </div>
     );
   }
