@@ -8,6 +8,7 @@ import { authApis } from "../services/apis";
 import OTPVerify from "./OTPVerify";
 import NavBar from "../components/common/NavBar";
 import Footer from "../components/common/Footer";
+import { errormessage, successmessage } from "../services/Toastify";
 
 const SignUp = () => {
   const [currentAccountType, setCurrentAccountType] = useState("Student");
@@ -24,6 +25,7 @@ const SignUp = () => {
 
   const onSubmit = (data) => {
     if (watch("password") !== watch("confirmPassword")) {
+      errormessage("Password and confirm password do not match");
       return setNotMatched({
         message: "Password and confirm password do not match",
       });
@@ -41,14 +43,19 @@ const SignUp = () => {
       .then((res) => res.json())
       .then((resData) => {
         if (resData?.success == false) {
+          errormessage( resData.error || resData.message ||"Failed to send otp")
           setNotMatched({
             message: resData.error || resData.message || "Failed to send OTP",
           });
           return;
         }
+        console.log(resData);
+        successmessage("Otp send Successfully")
         setFormData({ ...data, accountType: currentAccountType });
       })
-      .catch(() => setNotMatched({ message: "Failed to send OTP" }));
+      .catch(() => {
+        errormessage("Failed to send Otp")
+        setNotMatched({ message: "Failed to send OTP" })});
   };
 
   const handleChangeShowPassword = (e) => {

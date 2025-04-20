@@ -6,6 +6,7 @@ import Reviews from "../components/common/Reviews";
 import countryCodes from "../data/countrycode.json";
 import { useForm } from "react-hook-form";
 import { FaEarthAsia, FaPhone, FaMessage } from "react-icons/fa6";
+import { successmessage } from "../services/Toastify";
 const data = [
   {
     logo: <FaMessage />,
@@ -39,6 +40,7 @@ const ContactUs = () => {
 
   const onSubmit = (data) => {
     console.log(data);
+    successmessage("Thankyou for contacting Us 😊")
     navigate("/thank-you", {
       state: {
         ...data,

@@ -9,6 +9,7 @@ import Reviews from "../components/common/Reviews";
 import { useForm } from "react-hook-form";
 import countryCodes from "../data/countrycode.json";
 import { useNavigate } from "react-router-dom";
+import { successmessage } from "../services/Toastify";
 
 const images = [aboutUs1, aboutUs2, aboutUs3];
 
@@ -29,6 +30,7 @@ const AboutUs = () => {
 
   const onSubmit = (data) => {
     console.log(data);
+    successmessage("Thankyou for connect with us 😊")
     navigate("/thank-you", {
       state: {
         ...data,

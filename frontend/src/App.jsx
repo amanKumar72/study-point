@@ -25,6 +25,7 @@ function App() {
         <Route path="/aboutus" element={<AboutUs />}></Route>
         <Route path="/contactUs" element={<ContactUs />}></Route>
         <Route path="/thank-you" element={<Thankingyou />}></Route>
+        <Route path="/otp" element={<OTPVerify />}></Route>
         <Route path="/forget-password" element={<ForgetPassword />}></Route>
         <Route path="/reset-password/:token" element={<ResetPassword />}></Route>
         <Route path="/catalog/:catalogName" element={<Catalog />}></Route>

@@ -7,6 +7,7 @@ import { authApis } from "../services/apis";
 import NavBar from "../components/common/NavBar";
 import Footer from "../components/common/Footer";
 import { useNavigate } from "react-router-dom";
+import {errormessage,successmessage} from "../services/Toastify"
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -23,6 +24,7 @@ const Login = () => {
     console.log(email, password);
     if (!email || !password) {
       setError("email and password are mandatory");
+      errormessage("email and password are mandatory");
       return;
     }
     fetch(authApis.login, {
@@ -36,11 +38,16 @@ const Login = () => {
       .then((data) => {
         if (data?.success == false) {
           setError(data.message || data.error || "Unable to login");
+          errormessage(data.message || data.error || "Unable to login");
           return;
         }
+        successmessage("Login successful");
         navigate("/dashboard");
       })
-      .catch((err) => setError(err?.message || "unable to login"));
+      .catch((err) => {
+        setError(err?.message || "unable to login");
+        errormessage(err?.message || "unable to login");
+      });
   };
 
   return (
