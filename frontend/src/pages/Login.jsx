@@ -97,6 +97,11 @@ const Login = () => {
                 {error}
               </p>
             )}
+            <div className="flex justify-end">
+              <Link to="/forget-password" className="text-blue-500  underline">
+                Forget Password
+              </Link>
+            </div>
             <input
               type="submit"
               value="Login"

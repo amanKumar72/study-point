@@ -7,6 +7,9 @@ import ContactUs from "./pages/ContactUs";
 import AboutUs from "./pages/AboutUs";
 import Thankingyou from "./pages/Thankingyou";
 import ScrollToTop from "./components/common/ScrollToTop";
+import Catalog from "./pages/Catalog";
+import ForgetPassword from "./pages/ForgetPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 function App() {
   return (
@@ -22,6 +25,9 @@ function App() {
         <Route path="/aboutus" element={<AboutUs />}></Route>
         <Route path="/contactUs" element={<ContactUs />}></Route>
         <Route path="/thank-you" element={<Thankingyou />}></Route>
+        <Route path="/forget-password" element={<ForgetPassword />}></Route>
+        <Route path="/reset-password/:token" element={<ResetPassword />}></Route>
+        <Route path="/catalog/:catalogName" element={<Catalog />}></Route>
         <Route path="/otp" element={<OTPVerify />}></Route>
       </Routes>
     </div>

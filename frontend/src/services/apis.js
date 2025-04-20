@@ -15,3 +15,9 @@ export const authApis={
     resetPassword:`${BASE_URL}/api/v1/user/reset-password`,
     changePassword:`${BASE_URL}/api/v1/user/change-password`,
 }
+
+export const catagoryApi={
+    allCategories:`${BASE_URL}/api/v1/course/showAllcategories`,
+    categoryPage:`${BASE_URL}/api/v1/course/getCategoryPageDetails`,
+    createCategory:`${BASE_URL}/api/v1/course/createCatefory`
+}
