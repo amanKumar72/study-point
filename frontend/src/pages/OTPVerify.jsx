@@ -161,7 +161,7 @@ const OTPVerify = ({ formData }) => {
             )}
             {timer && (
               <p className="ml-5 text-blue-400">
-                <Timer seconds={10} handleTimer={handleTimer} />
+                <Timer seconds={30} handleTimer={handleTimer} />
               </p>
             )}
           </div>
