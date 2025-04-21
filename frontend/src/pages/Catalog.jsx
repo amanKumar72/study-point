@@ -49,7 +49,7 @@ const Catalog = () => {
             {courses?.description || "Catagory description"}
           </h2>
         </section>
-        <section className="">
+        <section className="flex flex-wrap gap-2 lg:gap-7 p-2 lg:p-4 ">
           {courses.map((course, index) => (
             <CourseCard key={index} course={course} />
           ))}
