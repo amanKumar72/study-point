@@ -5,36 +5,70 @@ import Loader from "../components/common/Loader";
 import { useParams } from "react-router-dom";
 import { catagoryApi } from "../services/apis";
 import CourseCard from "../components/catalog/CourseCard";
+import CourseSlider from "../components/catalog/CourseSlider";
 
 const Catalog = () => {
   const params = useParams();
-  console.log(params?.catalogName);
+  // console.log(params?.catalogName);
   const [courses, setCourses] = useState(null);
   const [error, setError] = useState(null);
+  const [categoryId, setCategoryId] = useState(null);
+
   useEffect(() => {
-    fetch(catagoryApi.categoryPage, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ categoryId: "67e2ccde08640e7bffd8771b" }),
-    })
+    fetch(catagoryApi.allCategories)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.courses.courses);
-
-        data.success
-          ? setCourses(data?.courses?.courses)
-          : setError("Some error Occured");
-        data?.courses?.courses.length == 0
-          ? setError("No courses of this category")
-          : setError(null);
+        if (data.success) {
+          const cat = data?.categories?.find(
+            (cat) =>
+              cat.name.toLowerCase().split(" ").join("-") ===
+              params?.catalogName.toLowerCase()
+          );
+          if (!cat) {
+            setError("No catagory available with this tag");
+            return;
+          }
+          setCategoryId(cat._id);
+        }
       })
-      .catch((err) => console.error(err));
-  }, []);
+      .catch((err) => {
+        console.error(err);
+        setError("No catagory available with this tag");
+      });
+  }, [params?.catalogName]);
+
+  useEffect(() => {
+    if (categoryId) {
+      fetch(catagoryApi.categoryPage, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ categoryId: categoryId }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data?.courses?.courses);
+          data.success
+            ? setCourses(data?.courses?.courses)
+            : setError("Some error Occured during catalog fetch");
+          data?.courses?.courses.length == 0
+            ? setError("No courses of this category")
+            : setError(null);
+        })
+        .catch((err) => {
+          console.error(err);
+          setError("Some error Occured during catalog fetch");
+        });
+    }
+  }, [categoryId]);
 
   if (error || !courses) {
-    return <>{error || <Loader />}</>;
+    return (
+      <div className="flex items-center min-h-screen justify-center">
+        {error || <Loader />}
+      </div>
+    );
   }
   return (
     <div className="w-full">
@@ -49,11 +83,12 @@ const Catalog = () => {
             {courses?.description || "Catagory description"}
           </h2>
         </section>
-        <section className="flex flex-wrap gap-2 lg:gap-7 p-2 lg:p-4 ">
+        <section className="flex flex-wrap justify-center gap-2 lg:gap-7 p-2 lg:p-4 ">
           {courses.map((course, index) => (
             <CourseCard key={index} course={course} />
           ))}
         </section>
+          <CourseSlider Courses={courses} />
       </main>
       <Footer />
     </div>

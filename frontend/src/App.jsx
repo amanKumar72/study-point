@@ -29,6 +29,7 @@ function App() {
         <Route path="/forget-password" element={<ForgetPassword />}></Route>
         <Route path="/reset-password/:token" element={<ResetPassword />}></Route>
         <Route path="/catalog/:catalogName" element={<Catalog />}></Route>
+        {/* <Route path="/course/:courseId" element={<Course />}></Route> */}
         <Route path="/otp" element={<OTPVerify />}></Route>
       </Routes>
     </div>

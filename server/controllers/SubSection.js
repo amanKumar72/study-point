@@ -13,10 +13,14 @@ exports.createSubSection = async (req, res) => {
         message: "All fields are required",
       });
     }
+    const alreadyAvailableSection = await Section.findOne({
+      _id: sectionId,
+    }).populate("subSections");
 
-    const alreadyAvailable = await SubSection.findOne({
-      title: name.trim(),
-    });
+    // const alreadyAvailableSubSection=await SubSection.findOne({name})
+    const alreadyAvailable = alreadyAvailableSection?.subSections.find(
+      (sub) => sub.title === name
+    );
     if (alreadyAvailable) {
       return res.status(400).json({
         success: false,
@@ -104,13 +108,13 @@ exports.updateSubSection = async (req, res) => {
 
       subSection.videoUrl = url;
     }
-    
-    if(name && name!=subSection.title){
-      subSection.title=name
+
+    if (name && name != subSection.title) {
+      subSection.title = name;
     }
 
-    if(description && description!=subSection.description){
-      subSection.description=description
+    if (description && description != subSection.description) {
+      subSection.description = description;
     }
 
     await subSection.save();
@@ -148,7 +152,6 @@ exports.deleteSubSection = async (req, res) => {
       });
     }
     const subSection = await SubSection.findByIdAndDelete(subSectionId);
-
 
     res.status(200).json({
       success: true,
