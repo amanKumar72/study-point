@@ -1,6 +1,7 @@
 import React from "react";
 
 import { FaStar } from "react-icons/fa";
+import RatingStars from "../common/RatingStars";
 const ReviewCard = ({ review }) => {
   return (
     <div className=" flex flex-col bg-gray-800 px-4 py-2 w-64 rounded-2xl mx-auto ">
@@ -26,10 +27,7 @@ const ReviewCard = ({ review }) => {
         </h2>
         <div className=" flex items-center gap-2 text-md md:text-lg lg:text-xl text-yellow-500 ">
           <h1>{(review?.rating || 0).toFixed(2)}</h1>
-          <div className="flex gap-2">
-            {review?.rating &&
-              Array.from(Array( review?.rating).keys(), (_,index) => <FaStar key={index} />)}
-          </div>
+          <RatingStars Review_Count={review?.rating}/>
         </div>
       </div>
     </div>

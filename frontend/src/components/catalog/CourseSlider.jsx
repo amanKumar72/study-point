@@ -6,37 +6,57 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
-import { FreeMode, Pagination } from "swiper/modules";
+import 'swiper/css/navigation';
+import 'swiper/css/autoplay';
+
+import { Autoplay, FreeMode, Pagination,Navigation } from "swiper/modules";
 
 import CourseCard from "./CourseCard";
 
 function CourseSlider({ Courses }) {
   return (
-    <div className="flex justify-center gap-2 lg:gap-7 p-2 lg:p-10 ">
+    <div className="">
       {Courses?.length ? (
         <Swiper
-          slidesPerView={1}
-          spaceBetween={25}
+        navigation={true}
+        breakpoints={{
+          0: {
+            slidesPerView: 1,
+            spaceBetween: 10,
+          },
+          760: {
+            slidesPerView: 2,
+            spaceBetween: 10,
+          },
+          1000: {
+            slidesPerView: 3,
+            spaceBetween: 10,
+          },
+          1440: {
+            slidesPerView: 4,
+            spaceBetween: 15,
+          },
+        }}
+          spaceBetween={10}
           loop={true}
-          modules={[FreeMode, Pagination]}
-          breakpoints={{
-            490: {
-              slidesPerView: 2,
-            },
-            1024: {
-              slidesPerView: 3,
-            },
+          freeMode={true}
+          pagination={{
+            clickable:true
           }}
-          className="w-full"
+          autoplay={{
+            delay: 1500,
+            disableOnInteraction: false,
+          }}
+          modules={[FreeMode, Pagination, Autoplay,Navigation]}
+          className="!p-5  md:p-10"
         >
-          {Courses?.map((course, i) => (
-            <SwiperSlide
-              key={i}
-              className="w-56 min-h-56 p-2 md:p-4 bg-gray-800 rounded-lg md:rounded-xl lg:rounded-2xl"
-            >
-              <CourseCard course={course} />
-            </SwiperSlide>
-          ))}
+          {Courses?.map((course, index) => {
+            return (
+              <SwiperSlide key={index} className="bg-gray-800 p-3 rounded-2xl">
+                <CourseCard course={course} />
+              </SwiperSlide>
+            );
+          })}
         </Swiper>
       ) : (
         <p className="text-xl text-gray-300">No Course Found</p>
