@@ -21,3 +21,9 @@ export const catagoryApi={
     categoryPage:`${BASE_URL}/api/v1/course/getCategoryPageDetails`,
     createCategory:`${BASE_URL}/api/v1/course/createCatefory`
 }
+
+export const courseApi={
+    createCourse:`${BASE_URL}/api/v1/course/createCourse`,
+    getCourseDetails:`${BASE_URL}/api/v1/course/getCourseDetails`,
+    
+}
