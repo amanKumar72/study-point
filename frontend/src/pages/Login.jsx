@@ -7,12 +7,16 @@ import { authApis } from "../services/apis";
 import NavBar from "../components/common/NavBar";
 import Footer from "../components/common/Footer";
 import { useNavigate } from "react-router-dom";
-import {errormessage,successmessage} from "../services/Toastify"
+import Cookies from "js-cookie";
+import { errormessage, successmessage } from "../services/Toastify";
+import { useDispatch } from "react-redux";
+import {setUser} from "../slices/profileSlice"
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleChangeShowPassword = (e) => {
     e.preventDefault();
@@ -21,6 +25,7 @@ const Login = () => {
 
   const handleForm = (data) => {
     const { email, password } = Object.fromEntries(data.entries());
+
     console.log(email, password);
     if (!email || !password) {
       setError("email and password are mandatory");
@@ -41,7 +46,15 @@ const Login = () => {
           errormessage(data.message || data.error || "Unable to login");
           return;
         }
+        Cookies.set("token", data?.token, {
+          expires: 7,
+          secure: true,
+          sameSite: "Strict",
+          path: "/",
+        });
+        localStorage.setItem("token", data?.token);
         successmessage("Login successful");
+        dispatch(setUser(data?.user));
         navigate("/dashboard");
       })
       .catch((err) => {
@@ -123,7 +136,7 @@ const Login = () => {
           <img src={login} alt="" />
         </div>
       </section>
-      <Footer/>
+      <Footer />
     </div>
   );
 };
