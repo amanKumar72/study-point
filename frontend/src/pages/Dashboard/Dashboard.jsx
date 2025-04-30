@@ -1,76 +1,127 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import NavBar from "../../components/common/NavBar";
 import Footer from "../../components/common/Footer";
-import { PiDotsNineLight } from "react-icons/pi";
-
+import { MdPersonOutline } from "react-icons/md";
+import { GrSettingsOption } from "react-icons/gr";
+import { IoCart, IoLogOut } from "react-icons/io5";
+import { FaGraduationCap } from "react-icons/fa";
+import { TbGridDots } from "react-icons/tb";
 
 const Dashboard = () => {
   const { user } = useSelector((state) => state.profile);
-  const [showSideBar, setShowSideBar] = React.useState(false);
-  console.log(showSideBar);
-  
+  const [width, setWidth] = useState(window.innerWidth);
+  const isMobile = width <= 768;
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth);
+    };
+
+    // Add event listener on mount
+    window.addEventListener("resize", handleResize);
+
+    // Clean up on unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   console.log(user);
 
   return (
     <div>
       <NavBar></NavBar>
       <main className="flex ">
-        <button onClick={()=>setShowSideBar(!showSideBar)} className="visible md:hidden absolute top-[30vh]   " title="sidebar">
-          <PiDotsNineLight className="text-2xl"></PiDotsNineLight>
-        </button>
-        <aside className={`w-[40%] md:w-[30%] lg:w-[20%] h-full bg-gray-800 transition duration-100 ease-in  md:visible  `}>
-          <div className="p-4 flex flex-col gap-5">
-            <h2 className="text-lg md:text-xl lg:text-2xl font-semibold mb-4">
-              Dashboard
+        <aside className={`w-fit min-h-screen  border-b-1 border-gray-500 lg:w-[20%] bg-gray-800`}>
+          <div className="p-2 md:p-4 flex flex-col gap-5">
+            <h2 className="text-gray-100 font-semibold px-2 py-1 md:px-4 md:py-2 rounded-lg">
+              {isMobile ? (
+                <TbGridDots />
+              ) : (
+                <span className="flex gap-2 items-center">
+                  <TbGridDots /> Dashboard
+                </span>
+              )}
             </h2>
             <NavLink
               to="/dashboard/profile"
-              
-              className={({isActive})=>{
+              className={({ isActive }) => {
                 return `${
-                  isActive? "bg-[#3d2a01] text-yellow-400 " : ""
-                } text-gray-300   px-2 py-1 md:px-4 md:py-2 rounded-lg  `;
+                  isActive ? "bg-[#3d2a01] text-yellow-400 " : ""
+                } text-gray-300    px-2 py-1 md:px-4 md:py-2 rounded-lg  `;
               }}
             >
-              Profile
+              {isMobile ? (
+                <MdPersonOutline />
+              ) : (
+                <span className="flex gap-2 items-center">
+                  <MdPersonOutline /> Profile
+                </span>
+              )}
             </NavLink>
             <NavLink
               to="/dashboard/enrolled-courses"
-              className={({isActive})=>{
+              className={({ isActive }) => {
                 return `${
-                  isActive? "bg-[#3d2a01] text-yellow-400 " : ""
-                } text-gray-300   px-2 py-1 md:px-4 md:py-2 rounded-lg  `;
-              }}            >
-              Enrolled Courses
+                  isActive ? "bg-[#3d2a01] text-yellow-400 " : ""
+                } text-gray-300  px-2 py-1 md:px-4 md:py-2 rounded-lg  `;
+              }}
+            >
+              {isMobile ? (
+                <FaGraduationCap />
+              ) : (
+                <span className="flex gap-2 items-center">
+                  <FaGraduationCap /> Enrolled Courses
+                </span>
+              )}
             </NavLink>
             <NavLink
               to="/dashboard/cart"
-              className={({isActive})=>{
+              className={({ isActive }) => {
                 return `${
-                  isActive? "bg-[#3d2a01] text-yellow-400 " : ""
-                } text-gray-300   px-2 py-1 md:px-4 md:py-2 rounded-lg  `;
-              }}            >
-              Cart
+                  isActive ? "bg-[#3d2a01] text-yellow-400 " : ""
+                } text-gray-300 px-2 py-1 md:px-4 md:py-2 rounded-lg  `;
+              }}
+            >
+              {isMobile ? (
+                <IoCart />
+              ) : (
+                <span className="flex gap-2 items-center">
+                  {" "}
+                  <IoCart></IoCart> Cart{" "}
+                </span>
+              )}
             </NavLink>
             <NavLink
               to="/dashboard/settings"
-              className={({isActive})=>{
+              className={({ isActive }) => {
                 return `${
-                  isActive? "bg-[#3d2a01] text-yellow-400 " : ""
-                } text-gray-300   px-2 py-1 md:px-4 md:py-2 rounded-lg  `;
-              }}            >
-              Settings
-            </NavLink>
-            <span
-              className="text-gray-300 hover:text-gray-100  px-2 py-1 md:px-4 md:py-2 rounded-lg"
+                  isActive ? "bg-[#3d2a01] text-yellow-400 " : ""
+                } text-gray-300 px-2 py-1 md:px-4 md:py-2 rounded-lg  `;
+              }}
             >
-              logout
+              {isMobile ? (
+                <GrSettingsOption />
+              ) : (
+                <span className="flex gap-2 items-center">
+                  <GrSettingsOption /> Settings
+                </span>
+              )}
+            </NavLink>
+            <span className="text-gray-300 flex gap-2 items-center  hover:text-gray-100  px-2 py-1 md:px-4 md:py-2 rounded-lg">
+              {isMobile ? (
+                <IoLogOut />
+              ) : (
+                <span className="flex gap-2 items-center">
+                  {" "}
+                  <IoLogOut></IoLogOut> Logout{" "}
+                </span>
+              )}
             </span>
           </div>
         </aside>
-        <div className="w-[80%]">
+        <div className="w-full ">
           <Outlet />
         </div>
       </main>

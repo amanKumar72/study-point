@@ -22,7 +22,7 @@ const Reviews = () => {
       .catch((err) => console.log("err", err));
   }, []);
   return (
-    <section className="review flex flex-col items-center gap-5 md:gap-10 lg:gap-15  ">
+    <section className="review flex flex-col items-center gap-5 md:gap-10 lg:gap-15 my-10  ">
         <h1 className=" text-3xl md:text-5xl text-center ">
           Reviews from learners
         </h1>

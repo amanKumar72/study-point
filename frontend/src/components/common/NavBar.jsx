@@ -107,7 +107,7 @@ const NavBar = () => {
         {user ? (
           <div className="flex flex-col md:flex-row">
             <NavLink
-              to="/cart"
+              to="/dashboard/cart"
               className={({ isActive }) => {
                 return `${
                   isActive ? "text-yellow-200 " : ""
@@ -118,7 +118,7 @@ const NavBar = () => {
             </NavLink>
             <button
               className="px-3 py-1 hover:bg-gray-700 text-start rounded-xl"
-              to="/dashboard"
+              to="/dashboard/profile"
               onMouseEnter={() => setShowProfileOptions(true)}
               onMouseLeave={() => setShowProfileOptions(false)}
             >
@@ -134,7 +134,7 @@ const NavBar = () => {
               {showProfileOptions && (
                 <div className="absolute top-52 right-8/12 md:top-15 p-2 md:p-4 md:right-10 bg-white text-black rounded-lg shadow-lg z-10">
                   <NavLink
-                    to="/dashboard"
+                    to="/dashboard/profile"
                     className=" hover:bg-gray-300 p-1 md:p-2 block mb-2 rounded-md"
                   >
                     Dashboard
@@ -144,7 +144,7 @@ const NavBar = () => {
                       setShowProfileOptions(false);
                       navigate("/logout");
                     }}
-                    className=" hover:bg-gray-300 p-1 md:p-2 block mb-2 rounded-md.h"
+                    className=" hover:bg-gray-300 p-1 md:p-2 block mb-2 rounded-md"
                   >
                     Logout
                   </NavLink>
