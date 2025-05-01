@@ -12,7 +12,7 @@ import ForgetPassword from "./pages/ForgetPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Course from "./pages/Course";
 import Dashboard from "./pages/Dashboard/Dashboard";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "./slices/profileSlice";
 import { useEffect } from "react";
 import { profileApi } from "./services/apis";
@@ -23,7 +23,9 @@ import Cart from "./pages/Dashboard/Cart";
 
 function App() {
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.profile);
   useEffect(() => {
+    if(user) return;
     const token = localStorage.getItem("token");
     fetch(profileApi.getUserDetails, {
       method: "GET",

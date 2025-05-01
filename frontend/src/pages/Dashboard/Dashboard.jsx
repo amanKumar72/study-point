@@ -33,7 +33,9 @@ const Dashboard = () => {
     <div>
       <NavBar></NavBar>
       <main className="flex ">
-        <aside className={`w-fit min-h-screen  border-b-1 border-gray-500 lg:w-[20%] bg-gray-800`}>
+        <aside
+          className={`w-fit min-h-screen  border-b-1 border-gray-500 lg:w-[20%] bg-gray-800`}
+        >
           <div className="p-2 md:p-4 flex flex-col gap-5">
             <h2 className="text-gray-100 font-semibold px-2 py-1 md:px-4 md:py-2 rounded-lg">
               {isMobile ? (

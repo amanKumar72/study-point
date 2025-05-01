@@ -26,4 +26,6 @@ export const courseApi = {
 };
 export const profileApi = {
   getUserDetails: `${BASE_URL}/api/v1/profile/getUserDetails`,
+  updateDisplayPicture: `${BASE_URL}/api/v1/profile/updateDisplayPicture`,
+  updateProfile: `${BASE_URL}/api/v1/profile/updateProfile`,
 };

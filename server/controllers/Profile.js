@@ -6,7 +6,17 @@ const { uploadImage } = require("../utils/cloudanory");
 
 exports.updateProfile = async (req, res) => {
   try {
-    const { gender, dateOfBirth, about, address, contactNumber } = req.body;
+    const {
+      lastName,
+      firstName,
+      gender,
+      dateOfBirth,
+      about,
+      address,
+      contactNumber,
+    } = req.body;
+    console.log(req.body);
+    
     const id = req.user.id;
     console.log(gender);
     if (
@@ -40,6 +50,11 @@ exports.updateProfile = async (req, res) => {
       },
       { new: true }
     );
+
+    firstName && (user.firstName = firstName);
+    lastName && (user.lastName = lastName);
+    await user.save();
+
     return res.status(200).json({
       success: true,
       message: "Profile updated successfully",

@@ -110,6 +110,15 @@ const Profile = () => {
                 {user?.additionalDetails?.about || "write Something about you"}
               </h2>
             </hgroup>
+            <hgroup className="w-full">
+              <h2 className="text-md md:text-lg lg:text-xl font-semibold text-wrap ">
+                Contact Number
+              </h2>
+              <h2 className="text-md md:text-lg break-all lg:text-xl   italic text-gray-300 ">
+                {user?.additionalDetails?.contactNumber ||
+                  "Provide your contact number"}
+              </h2>
+            </hgroup>
           </div>
           <Link
             to="/dashboard/settings"
