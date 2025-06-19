@@ -19,6 +19,7 @@ export const warnmessage = (msg) => {
 export const successmessage = (msg) => {
   return toast.success(msg, payload);
 };
+
 export const loadingmessage = (msg) => {
  return  toast.loading(msg, payload);
 };

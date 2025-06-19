@@ -91,7 +91,7 @@ const Dashboard = () => {
               ) : (
                 <span className="flex gap-2 items-center">
                   {" "}
-                  <IoCart></IoCart> Cart{" "}
+                  <IoCart></IoCart> Cart
                 </span>
               )}
             </NavLink>
