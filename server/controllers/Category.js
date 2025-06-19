@@ -51,7 +51,7 @@ exports.categoryPageDetails = async (req, res) => {
       .populate("instructor")
       .exec();
 
-    return res.status(200).json({ success: true, courses });
+    return res.status(200).json({ success: true, courses,topEnrolledCourses });
   } catch (error) {
     console.log("error in getting category page details");
     res.status(500).json({

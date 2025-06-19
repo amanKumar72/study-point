@@ -7,7 +7,7 @@ const bcrypt = require("bcrypt");
 const { log } = require("node:console");
 
 
-//reset passwordToken
+//reset passwordToken generation and set it to user
 exports.resetpasswordToken = async (req, res) => {
   try {
     const { email } = req.body;
@@ -55,7 +55,7 @@ exports.resetpasswordToken = async (req, res) => {
   }
 };
 
-//reset password
+//reset password with token
 exports.resetPassword = async (req, res) => {
   try {
     const { password, confirmPassword, token } = req.body;

@@ -5,6 +5,7 @@ const Profile = require("../models/Profile");
 const bcrypt = require("bcrypt");
 const { generateToken } = require("../utils/JWT");
 const sendMail = require("../utils/nodemailer");
+const passwordUpdated = require("../mail/templates/passwordUpdate");
 //login
 
 exports.login = async (req, res) => {
@@ -216,7 +217,7 @@ exports.changePassword = async (req, res) => {
     user.password = hashedPassword;
     await user.save();
 
-    sendMail(user.email, "Password Changed", "Your password has been changed successfully");
+    sendMail(user.email, "Password Changed", passwordUpdated(user.email,user.firstName));
 
     return res.status(200).json({
       success: true,
@@ -250,6 +251,7 @@ exports.sendOtp = async (req, res) => {
       upperCaseAlphabets : false,
       lowerCaseAlphabets: false,
     });
+    
     let isAvailable = await Otp.findOne({ otp });
     while (isAvailable) {
       otp = otpGenerator.generate(6, {

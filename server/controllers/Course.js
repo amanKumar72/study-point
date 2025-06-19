@@ -125,7 +125,7 @@ exports.editCourse = async (req, res) => {
     if (!course) {
       return res.status(404).json({ success: false, message: "Course not found" });
     }
-console.log(updates);
+// console.log(updates);
 
     // If Thumbnail Image is found, update it
     if (req.files) {
