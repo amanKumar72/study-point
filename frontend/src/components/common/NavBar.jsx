@@ -7,9 +7,11 @@ import { GrCart } from "react-icons/gr";
 import { useSelector } from "react-redux";
 const NavBar = () => {
   const user = useSelector((state) => state.profile.user);
+  const {cart} =useSelector(state=>state.cart)
   const [isOpen, setIsOpen] = useState(false);
   const [showProfileOptions, setShowProfileOptions] = useState(false);
   const navigate = useNavigate();
+  
   const items = [
     "Python",
     "Web Developement",
@@ -114,7 +116,7 @@ const NavBar = () => {
                 }  px-3 py-1 hover:bg-gray-700 rounded-xl `;
               }}
             >
-              {!isOpen ? <GrCart className="text-white text-2xl" /> : "Cart"}
+              {!isOpen ? <div className="relative"><GrCart className="text-white text-2xl" /><span className="absolute top-[-10px] right-[-10px] bg-gray-500 text-zinc-100 text-sm w-5 h-5 rounded-full flex items-center justify-center">{cart?.length || 0}</span></div> : "Cart"}
             </NavLink>
             <button
               className="px-3 py-1 hover:bg-gray-700 text-start rounded-xl"

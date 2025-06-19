@@ -1,0 +1,58 @@
+import React from "react";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { removeFromCart } from "../../slices/cartSlice";
+
+const CartCourse = ({ course }) => {
+  const dispatch = useDispatch();
+  console.log(course);
+
+  return (
+    <div className="flex flex-col lg:flex-row gap-2 md:gap-5 lg:gap-10 bg-gray-700 p-5 rounded-lg ">
+      <div className="w-1/6">
+        <img
+          src={course?.thumbnail}
+          alt={course?.title}
+          className=" object-cover"
+        />
+      </div>
+
+      <div className="w-1/3">
+        <h2 className="text-lg md:text-xl lg:text-2xl font-semibold">
+          {course?.courseName}
+        </h2>
+        <h2 className="text-md md:text-lg lg:text-xl">
+          By {course?.instructor?.firstName}
+        </h2>
+        <h2 className="text-md md:text-lg lg:text-xl">
+          {course?.catagory?.name}
+        </h2>
+        <h2 className="text-md md:text-lg lg:text-xl">
+          Price : $ {course?.price}
+        </h2>
+        <h2 className="text-md md:text-lg lg:text-xl">
+          Language: {course?.language}
+        </h2>
+      </div>
+
+      <div className="actionButttons flex flex-col gap-5 justify-center">
+        <button
+          onClick={() => {
+            dispatch(removeFromCart(course._id));
+          }}
+          className="bg-red-600 text-lg md:text-xl lg:text-2xl text-white px-2 md:px-5 py-1 md:py-2 rounded-md cursor-pointer"
+        >
+          Remove
+        </button>
+        <Link
+          to="/"
+          className="bg-green-600 text-lg md:text-xl lg:text-2xl text-white px-2 md:px-5 py-1 md:py-2 rounded-md cursor-pointer"
+        >
+          Buy Now
+        </Link>
+      </div>
+    </div>
+  );
+};
+
+export default CartCourse;
