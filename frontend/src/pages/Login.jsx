@@ -55,7 +55,7 @@ const Login = () => {
         localStorage.setItem("token", data?.token);
         successmessage("Login successful");
         dispatch(setUser(data?.user));
-        navigate("/dashboard");
+        navigate("/dashboard/profile");
       })
       .catch((err) => {
         setError(err?.message || "unable to login");

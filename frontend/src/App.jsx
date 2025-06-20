@@ -20,6 +20,7 @@ import Profile from "./pages/Dashboard/Profile";
 import Settings from "./pages/Dashboard/Settings";
 import EnrolledCourses from "./pages/Dashboard/EnrolledCourses";
 import Cart from "./pages/Dashboard/Cart";
+import NotFound from "./pages/NotFound";
 
 function App() {
   const dispatch = useDispatch();
@@ -41,6 +42,8 @@ function App() {
           navigate("/login");
           return;
         }
+        // console.log(data?.user);
+        
         dispatch(setUser(data?.user));
       })
       .catch((err) => {
@@ -78,6 +81,7 @@ function App() {
         </Route>
         <Route path="/course/:courseId" element={<Course />}></Route>
         <Route path="/otp" element={<OTPVerify />}></Route>
+        <Route path="*" element={<NotFound />}></Route>
       </Routes>
     </div>
   );

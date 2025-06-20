@@ -9,7 +9,8 @@ const profileSlice = createSlice({
   initialState: initialState,
   reducers: {
     setUser(state, value) {
-      state.user = value.payload
+      state.user = value.payload;
+      localStorage.setItem("user", JSON.stringify(value.payload));
     },
     setLoading(state, value) {
       state.loading = value.payload
@@ -18,6 +19,7 @@ const profileSlice = createSlice({
       state.user = null;
       localStorage.removeItem("token");
       localStorage.removeItem("theme");
+      localStorage.removeItem("user");
     }
   },
 })

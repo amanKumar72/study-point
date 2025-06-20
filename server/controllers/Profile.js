@@ -108,7 +108,7 @@ exports.getAllUserDetails = async (req, res) => {
         message: "id not found",
       });
     }
-    const user = await User.findById(id).populate("additionalDetails").exec();
+    const user = await User.findById(id).populate("additionalDetails").populate("courses").exec();
 
     res.status(200).json({
       success: true,
