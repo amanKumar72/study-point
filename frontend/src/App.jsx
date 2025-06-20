@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
@@ -24,6 +24,7 @@ import Cart from "./pages/Dashboard/Cart";
 function App() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.profile);
+  const navigate=useNavigate();
   useEffect(() => {
     if(user) return;
     const token = localStorage.getItem("token");
@@ -37,6 +38,7 @@ function App() {
       .then((res) => res.json())
       .then((data) => {
         if (data?.success == false) {
+          navigate("/login");
           return;
         }
         dispatch(setUser(data?.user));

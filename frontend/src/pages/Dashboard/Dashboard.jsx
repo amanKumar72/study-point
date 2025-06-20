@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { NavLink, Outlet } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import NavBar from "../../components/common/NavBar";
 import Footer from "../../components/common/Footer";
 import { MdPersonOutline } from "react-icons/md";
@@ -8,11 +8,18 @@ import { GrSettingsOption } from "react-icons/gr";
 import { IoCart, IoLogOut } from "react-icons/io5";
 import { FaGraduationCap } from "react-icons/fa";
 import { TbGridDots } from "react-icons/tb";
+import { logout } from "../../slices/profileSlice";
+import { resetCart } from "../../slices/cartSlice";
+import LogoutDialog from "../../components/common/LogoutDialog";
+
 
 const Dashboard = () => {
   const { user } = useSelector((state) => state.profile);
   const [width, setWidth] = useState(window.innerWidth);
   const isMobile = width <= 768;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [showLogoutDialog, setShowLogoutDialog] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -111,7 +118,12 @@ const Dashboard = () => {
                 </span>
               )}
             </NavLink>
-            <span className="text-gray-300 flex gap-2 items-center  hover:text-gray-100  px-2 py-1 md:px-4 md:py-2 rounded-lg">
+            <span
+              onClick={() => {
+                setShowLogoutDialog(true);
+              }}
+              className="text-gray-300 flex gap-2 items-center  hover:text-gray-100  px-2 py-1 md:px-4 md:py-2 rounded-lg"
+            >
               {isMobile ? (
                 <IoLogOut />
               ) : (
@@ -125,6 +137,16 @@ const Dashboard = () => {
         </aside>
         <div className="w-full ">
           <Outlet />
+          <LogoutDialog
+            open={showLogoutDialog}
+            handleClose={() => setShowLogoutDialog(false)}
+            handleLogout={() => {
+              dispatch(logout());
+              dispatch(resetCart());
+              navigate("/login");
+              setShowLogoutDialog(false);
+            }}
+          />
         </div>
       </main>
       <Footer></Footer>

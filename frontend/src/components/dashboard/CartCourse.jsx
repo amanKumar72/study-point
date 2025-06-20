@@ -8,8 +8,8 @@ const CartCourse = ({ course }) => {
   console.log(course);
 
   return (
-    <div className="flex flex-col lg:flex-row gap-2 md:gap-5 lg:gap-10 bg-gray-700 p-5 rounded-lg ">
-      <div className="w-1/6">
+    <div className="flex flex-col md:flex-row gap-2 md:gap-5  lg:gap-10 bg-gray-700 p-5 rounded-lg items-center w-full">
+      <div className="w-1/2 md:w-1/6">
         <img
           src={course?.thumbnail}
           alt={course?.title}
@@ -17,7 +17,7 @@ const CartCourse = ({ course }) => {
         />
       </div>
 
-      <div className="w-1/3">
+      <div className="md:w-1/2">
         <h2 className="text-lg md:text-xl lg:text-2xl font-semibold">
           {course?.courseName}
         </h2>
@@ -35,18 +35,18 @@ const CartCourse = ({ course }) => {
         </h2>
       </div>
 
-      <div className="actionButttons flex flex-col gap-5 justify-center">
+      <div className="actionButttons flex flex-col gap-2 md:gap-5 justify-center w-full md:w-1/3">
         <button
           onClick={() => {
             dispatch(removeFromCart(course._id));
           }}
-          className="bg-red-600 text-lg md:text-xl lg:text-2xl text-white px-2 md:px-5 py-1 md:py-2 rounded-md cursor-pointer"
+          className="bg-red-600 text-lg md:text-xl lg:text-2xl text-white px-2 md:px-5 py-1 md:py-2 rounded-md cursor-pointer text-center"
         >
           Remove
         </button>
         <Link
           to="/"
-          className="bg-green-600 text-lg md:text-xl lg:text-2xl text-white px-2 md:px-5 py-1 md:py-2 rounded-md cursor-pointer"
+          className="bg-green-600 text-lg md:text-xl lg:text-2xl text-white px-2 md:px-5 py-1 md:py-2 rounded-md cursor-pointer text-center"
         >
           Buy Now
         </Link>

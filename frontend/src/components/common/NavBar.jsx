@@ -3,15 +3,19 @@ import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../../assets/Logo/Logo-Full-Light.png";
 import { FaTimes, FaBars } from "react-icons/fa";
 import { GrCart } from "react-icons/gr";
+import { logout } from "../../slices/profileSlice";
+import { resetCart } from "../../slices/cartSlice";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import LogoutDialog from "./LogoutDialog";
 const NavBar = () => {
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.profile.user);
-  const {cart} =useSelector(state=>state.cart)
+  const { cart } = useSelector((state) => state.cart);
   const [isOpen, setIsOpen] = useState(false);
   const [showProfileOptions, setShowProfileOptions] = useState(false);
   const navigate = useNavigate();
-  
+
   const items = [
     "Python",
     "Web Developement",
@@ -24,6 +28,7 @@ const NavBar = () => {
     "CyberSecurity",
   ];
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
+  const [showLogoutDialog, setShowLogoutDialog] = useState(false);
 
   return (
     <header className=" md:px-10 md:py-4 px-4 py-2 border-b-gray-500 bg-gray-800 border-b-1 mx-auto flex items-center justify-between">
@@ -116,7 +121,16 @@ const NavBar = () => {
                 }  px-3 py-1 hover:bg-gray-700 rounded-xl `;
               }}
             >
-              {!isOpen ? <div className="relative"><GrCart className="text-white text-2xl" /><span className="absolute top-[-10px] right-[-10px] bg-gray-500 text-zinc-100 text-sm w-5 h-5 rounded-full flex items-center justify-center">{cart?.length || 0}</span></div> : "Cart"}
+              {!isOpen ? (
+                <div className="relative">
+                  <GrCart className="text-white text-2xl" />
+                  <span className="absolute top-[-10px] right-[-10px] bg-gray-500 text-zinc-100 text-sm w-5 h-5 rounded-full flex items-center justify-center">
+                    {cart?.length || 0}
+                  </span>
+                </div>
+              ) : (
+                "Cart"
+              )}
             </NavLink>
             <button
               className="px-3 py-1 hover:bg-gray-700 text-start rounded-xl"
@@ -143,8 +157,7 @@ const NavBar = () => {
                   </NavLink>
                   <NavLink
                     onClick={() => {
-                      setShowProfileOptions(false);
-                      navigate("/logout");
+                    setShowLogoutDialog(true);
                     }}
                     className=" hover:bg-gray-300 p-1 md:p-2 block mb-2 rounded-md"
                   >
@@ -185,6 +198,15 @@ const NavBar = () => {
       >
         {isOpen ? <FaTimes /> : <FaBars />}
       </button>
+      <LogoutDialog
+        open={showLogoutDialog}
+        handleClose={() => setShowLogoutDialog(false)}
+        handleLogout={() => {
+          dispatch(logout());
+          dispatch(resetCart());
+          navigate("/login");
+        }}
+      />
     </header>
   );
 };

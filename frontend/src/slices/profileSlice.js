@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit"
-
 const initialState = {
   user: null,
   loading: false,
@@ -15,9 +14,14 @@ const profileSlice = createSlice({
     setLoading(state, value) {
       state.loading = value.payload
     },
+    logout(state) {
+      state.user = null;
+      localStorage.removeItem("token");
+      localStorage.removeItem("theme");
+    }
   },
 })
 
-export const { setUser, setLoading } = profileSlice.actions
+export const { setUser,logout, setLoading } = profileSlice.actions
 
 export default profileSlice.reducer

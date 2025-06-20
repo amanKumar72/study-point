@@ -12,6 +12,7 @@
     "dev": "concurrently -n \"client,server\" -c \"bgBlue,bgYellow\" \"npm run start\" \"npm run server\" "
   },
   "dependencies": {
+    "@mui/material": "^7.1.2",
     "@reduxjs/toolkit": "^2.7.0",
     "@tailwindcss/vite": "^4.0.17",
     "concurrently": "^9.1.2",
