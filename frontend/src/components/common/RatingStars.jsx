@@ -21,7 +21,9 @@ function RatingStars({ Review_Count, Star_Size }) {
     })
   }, [Review_Count])
   return (
-    <div className="flex gap-1 text-yellow-300 my-2 md:my-3">
+   <div className="flex gap-1 items-center">
+    <p className="text-lg text-yellow-200">{Math.round(Review_Count * 100) / 100}</p>
+     <div className="flex gap-1 text-yellow-300 my-2 md:my-3">
       {[...new Array(starCount.full)].map((_, i) => {
         return <TiStarFullOutline key={i} size={Star_Size || 20} />
       })}
@@ -32,6 +34,7 @@ function RatingStars({ Review_Count, Star_Size }) {
         return <TiStarOutline key={i} size={Star_Size || 20} />
       })}
     </div>
+   </div>
   )
 }
 

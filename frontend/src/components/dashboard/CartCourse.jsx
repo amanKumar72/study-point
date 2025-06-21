@@ -2,10 +2,19 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { removeFromCart } from "../../slices/cartSlice";
+import RatingStars from "../common/RatingStars";
 
 const CartCourse = ({ course }) => {
   const dispatch = useDispatch();
   console.log(course);
+
+  const getAvgRating = () => {
+    if (!course?.ratingAndReviews?.length) return 0;
+    return (
+      course.ratingAndReviews.reduce((acc, review) => acc + review.rating, 0) /
+      course.ratingAndReviews.length
+    );
+  };
 
   return (
     <div className="flex flex-col md:flex-row gap-2 md:gap-5  lg:gap-10 bg-gray-700 p-5 rounded-lg items-center w-full">
@@ -32,6 +41,12 @@ const CartCourse = ({ course }) => {
         </h2>
         <h2 className="text-md md:text-lg lg:text-xl">
           Language: {course?.language}
+        </h2>
+        <h2 className="flex flex-row gap-2 items-center">
+          <RatingStars Review_Count={getAvgRating()} />
+          <span className="text-gray-300">
+            {course?.ratingAndReviews?.length} ratings
+          </span>
         </h2>
       </div>
 

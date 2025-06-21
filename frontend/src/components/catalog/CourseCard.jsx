@@ -5,7 +5,7 @@ import RatingStars from "../common/RatingStars"
 
 const CourseCard = ({ course }) => {
   const [avgRating, setAvgRating] = useState(0);
-  console.log(course._id);
+  // console.log(course._id);
   
   useEffect(() => {
     fetch(reviewApis.getAverageRating, {
@@ -17,7 +17,7 @@ const CourseCard = ({ course }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         
         if (data.success) {
           setAvgRating(data?.averageRating);
