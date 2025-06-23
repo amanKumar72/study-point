@@ -7,7 +7,7 @@ const LogoutDialog = ({ open, handleClose, handleLogout }) => {
       onClick={(e) => {
         e.target.classList.contains("fixed") && handleClose();
       }}
-      className="fixed inset-0  bg-opacity-50 flex items-center justify-center backdrop-blur-sm bg-opacity-10 "
+      className="fixed inset-0  bg-opacity-50 flex items-center justify-center backdrop-blur-sm bg-opacity-10 z-10 "
     >
       <div className="bg-gray-700 rounded-lg p-6 max-w-sm w-full mx-4">
         <h2 className="text-xl font-semibold mb-4">Confirm Logout</h2>
