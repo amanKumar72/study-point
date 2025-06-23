@@ -34,7 +34,7 @@ const Dashboard = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-  console.log(user);
+  // console.log(user);
 
   return (
     <div>

@@ -1,7 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const EnrolledCourseCard = ({course}) => {
+const EnrolledCourseCard = ({ course }) => {
+  
+  
   return (
     <div className="flex flex-col md:flex-row gap-2 md:gap-5  lg:gap-10 bg-gray-700 p-5 rounded-lg items-center w-full">
       <div className="w-1/2 md:w-1/6">
@@ -37,7 +39,7 @@ const EnrolledCourseCard = ({course}) => {
         Remove
       </button> */}
         <Link
-          to={`/learn/${course?._id}`}
+          to={`/view-course/${course?._id}/section/${course?.courseContent?.[0]?._id}/sub-section/${course?.courseContent?.[0]?.subSections?.[0]?._id}`}
           className="bg-green-600 text-lg md:text-xl lg:text-2xl text-white px-2 md:px-5 py-1 md:py-2 rounded-md cursor-pointer text-center"
         >
           Continue learning

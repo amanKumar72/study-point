@@ -21,13 +21,16 @@ import Settings from "./pages/Dashboard/Settings";
 import EnrolledCourses from "./pages/Dashboard/EnrolledCourses";
 import Cart from "./pages/Dashboard/Cart";
 import NotFound from "./pages/NotFound";
+import { ACCOUNT_TYPE } from "./utils/constants";
+import ViewCourse from "./pages/ViewCourse";
+import VideoDetails from "./components/viewCourse/VideoDetails";
 
 function App() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.profile);
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   useEffect(() => {
-    if(user) return;
+    if (user) return;
     const token = localStorage.getItem("token");
     fetch(profileApi.getUserDetails, {
       method: "GET",
@@ -43,7 +46,7 @@ function App() {
           return;
         }
         // console.log(data?.user);
-        
+
         dispatch(setUser(data?.user));
       })
       .catch((err) => {
@@ -81,6 +84,14 @@ function App() {
         </Route>
         <Route path="/course/:courseId" element={<Course />}></Route>
         <Route path="/otp" element={<OTPVerify />}></Route>
+        <Route  element={<ViewCourse />}>
+          {user?.accountType === ACCOUNT_TYPE.STUDENT && (
+            <Route
+              path="view-course/:courseId/section/:sectionId/sub-section/:subSectionId"
+              element={<VideoDetails/>}
+            />
+          )}
+        </Route>
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
     </div>

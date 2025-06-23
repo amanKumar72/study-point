@@ -16,7 +16,7 @@ exports.updateProfile = async (req, res) => {
       contactNumber,
     } = req.body;
     console.log(req.body);
-    
+
     const id = req.user.id;
     console.log(gender);
     if (
@@ -108,7 +108,18 @@ exports.getAllUserDetails = async (req, res) => {
         message: "id not found",
       });
     }
-    const user = await User.findById(id).populate("additionalDetails").populate("courses").exec();
+    const user = await User.findById(id)
+      .populate("additionalDetails")
+      .populate({
+        path: "courses",
+        populate: {
+          path: "courseContent",
+          populate: {
+            path: "subSections",
+          },
+        },
+      })
+      .exec();
 
     res.status(200).json({
       success: true,

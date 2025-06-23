@@ -22,7 +22,9 @@ export const catagoryApi = {
 
 export const courseApi = {
   createCourse: `${BASE_URL}/api/v1/course/createCourse`,
+  getFullCourseDetails: `${BASE_URL}/api/v1/course/getFullCourseDetails`,
   getCourseDetails: `${BASE_URL}/api/v1/course/getCourseDetails`,
+  updateCourseProgress:`${BASE_URL}/api/v1/course/updateCourseProgress`
 };
 export const profileApi = {
   getUserDetails: `${BASE_URL}/api/v1/profile/getUserDetails`,
