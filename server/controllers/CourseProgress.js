@@ -10,9 +10,12 @@ exports.updateCourseProgress = async (req, res) => {
 
   try {
     // Check if the subsection is valid
+    // console.log(subsectionId);
+    
     const subsection = await SubSection.findById(subsectionId);
+    // console.log(subsection);
     if (!subsection) {
-      return res.status(404).json({ error: "Invalid subsection" });
+      return res.status(404).json({success:false, error: "Invalid subsection" });
     }
 
     // Find the course progress document for the user and course
@@ -31,7 +34,7 @@ exports.updateCourseProgress = async (req, res) => {
     } else {
       // If course progress exists, check if the subsection is already completed
       if (courseProgress.completedVideos.includes(subsectionId)) {
-        return res.status(400).json({ error: "Subsection already completed" });
+        return res.status(400).json({success:false, error: "Subsection already completed" });
       }
 
       // Push the subsection into the completedVideos array

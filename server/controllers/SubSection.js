@@ -72,6 +72,7 @@ exports.updateSubSection = async (req, res) => {
   try {
     const { name, description, subSectionId } = req.body;
     const videoFile = req?.files?.videoFile;
+    
     if (!subSectionId) {
       return res.status(400).json({
         success: false,
@@ -93,12 +94,13 @@ exports.updateSubSection = async (req, res) => {
         message: "No sub Section available with this id",
       });
     }
-
     // TODO:remove previous image of video
+    console.log(subSection)
     if (videoFile) {
       await deleteImageByUrl(subSection.videoUrl);
       const url = await uploadImage(videoFile, process.env.UPLOAD_FOLDER);
-
+      
+   
       if (!url) {
         return res.status(400).json({
           success: false,
@@ -106,8 +108,9 @@ exports.updateSubSection = async (req, res) => {
         });
       }
 
-      subSection.videoUrl = url;
+      subSection.videoUrl = url?.secure_url;
     }
+    console.log(subSection)
 
     if (name && name != subSection.title) {
       subSection.title = name;

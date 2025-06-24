@@ -29,9 +29,9 @@ export default function ViewCourseSideBar({ setReviewModal }) {
       )
       const currentSubSectionIndx = courseSectionData?.[
         currentSectionIndx
-      ]?.subSection?.findIndex((data) => data?._id === subSectionId)
+      ]?.subSections?.findIndex((data) => data?._id === subSectionId)
       const activeSubSectionId =
-        courseSectionData[currentSectionIndx]?.subSection?.[
+        courseSectionData[currentSectionIndx]?.subSections?.[
           currentSubSectionIndx
         ]?._id
       setActiveStatus(courseSectionData?.[currentSectionIndx]?._id)
@@ -82,7 +82,7 @@ export default function ViewCourseSideBar({ setReviewModal }) {
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="text-[12px] font-medium">
-                    Lession {section?.subSection?.length}
+                    Lession {section?.subSections?.length}
                   </span>
                   <span
                     className={`${

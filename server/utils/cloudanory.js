@@ -25,10 +25,11 @@ const deleteImageByUrl = async (secureUrl) => {
       const folder = parts[parts.length - 2];   // e.g., "uploads"
 
       const publicId = `${folder}/${fileName.split(".")[0]}`; // Remove file extension
-
+      console.log(publicId);
+      
       // Delete image from Cloudinary
-      const result = await cloudinary.uploader.destroy(publicId);
-      console.log("Delete Result:", result);
+      const result = await cloudinary.uploader.destroy(publicId, {resource_type: 'video', invalidate: true, type: 'authenticated'});
+      // console.log("Delete Result:", result);
 
       return result;
   } catch (error) {
