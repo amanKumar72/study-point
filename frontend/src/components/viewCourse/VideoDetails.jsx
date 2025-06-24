@@ -217,7 +217,6 @@ const VideoDetails = () => {
           <ReactPlayer
             ref={playerRef}
             //   aspectratio="16:9"
-            playing
             loop={false}
             controls
             onEnded={() => {

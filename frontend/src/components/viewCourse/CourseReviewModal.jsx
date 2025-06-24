@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import {  RxCrosshair2 } from "react-icons/rx";
-import ReactStars from "react-rating-stars-component";
+import ReactStars from "react-stars";
 import { useSelector } from "react-redux";
 
 import { reviewApis } from "../../services/apis";
@@ -30,6 +30,7 @@ export default function CourseReviewModal({ setReviewModal }) {
     // console.log(newRating)
     setValue("courseRating", newRating);
   };
+
 
   const onSubmit = async (data) => {
     fetch(reviewApis.createRating, {
@@ -92,8 +93,9 @@ export default function CourseReviewModal({ setReviewModal }) {
             <ReactStars
               count={5}
               onChange={ratingChanged}
-              size={24}
-              activeColor="#ffd700"
+              size={30}
+              color1="#ffd700"
+              color2="#ffd700"
             />
             <div className="flex w-11/12 flex-col space-y-2">
               <label
