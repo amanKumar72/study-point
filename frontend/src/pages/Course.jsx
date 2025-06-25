@@ -5,7 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import { courseApi } from "../services/apis";
 import Loader from "../components/common/Loader";
 import RatingStars from "../components/common/RatingStars";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 // import { useSelector } from "react-redux";
 import { addToCart } from "../slices/cartSlice";
 
@@ -13,12 +13,13 @@ const Course = () => {
   const { courseId } = useParams();
   const [course, setCourse] = useState(null);
   const [error, setError] = useState(null);
+  const { user } = useSelector((state) => state.profile);
   const dispatch = useDispatch();
   // const {cart}=useSelector((state)=>state.cart)
   const [showInstructions, setShowInstructions] = useState(false);
   const [showCourseContent, setShowCourseContent] = useState(false);
 
-  console.log(course);
+  // console.log(user);
 
   useEffect(() => {
     fetch(courseApi.getCourseDetails, {
@@ -258,17 +259,28 @@ const Course = () => {
                 </div>
               </div>
 
-              <button
-                onClick={() => {
-                  dispatch(addToCart(course));
-                }}
-                className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-4 rounded-xl font-bold text-lg hover:from-purple-700 hover:to-indigo-700 transform hover:scale-[1.02] transition-all duration-300 shadow-lg"
-              >
-                Add to cart
-              </button>
-              <button className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-4 rounded-xl font-bold text-lg hover:from-purple-700 hover:to-indigo-700 transform hover:scale-[1.02] transition-all duration-300 shadow-lg">
-                Enroll Now
-              </button>
+              {user?.courses?.find((course) => course._id == courseId) ? (
+                <Link
+                  to={`/view-course/${course?._id}/section/${course?.courseContent?.[0]?._id}/sub-section/${course?.courseContent?.[0]?.subSections?.[0]?._id}`}
+                  className="block text-center w-fufll bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-4 rounded-xl font-bold text-lg hover:from-purple-700 hover:to-indigo-700 transform hover:scale-[1.02] transition-all duration-300 shadow-lg"
+                >
+                 Continue learning
+                </Link>
+              ) : (
+                <>
+                  <button
+                    onClick={() => {
+                      dispatch(addToCart(course));
+                    }}
+                    className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-4 rounded-xl font-bold text-lg hover:from-purple-700 hover:to-indigo-700 transform hover:scale-[1.02] transition-all duration-300 shadow-lg"
+                  >
+                    Add to cart
+                  </button>
+                  <button className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-4 rounded-xl font-bold text-lg hover:from-purple-700 hover:to-indigo-700 transform hover:scale-[1.02] transition-all duration-300 shadow-lg">
+                    Enroll Now
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </section>

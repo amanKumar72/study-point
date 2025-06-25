@@ -11,6 +11,8 @@ import Catalog from "./pages/Catalog";
 import ForgetPassword from "./pages/ForgetPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Course from "./pages/Course";
+import AddCourse from "./pages/Dashboard/AddCourse";
+import MyCourse from "./pages/Dashboard/MyCourse";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "./slices/profileSlice";
@@ -18,6 +20,7 @@ import { useEffect } from "react";
 import { profileApi } from "./services/apis";
 import Profile from "./pages/Dashboard/Profile";
 import Settings from "./pages/Dashboard/Settings";
+import InstructorDashboard from "./pages/Dashboard/InstructorDashboard";
 import EnrolledCourses from "./pages/Dashboard/EnrolledCourses";
 import Cart from "./pages/Dashboard/Cart";
 import NotFound from "./pages/NotFound";
@@ -28,6 +31,7 @@ import VideoDetails from "./components/viewCourse/VideoDetails";
 function App() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.profile);
+  // console.log(user);
   const navigate = useNavigate();
   useEffect(() => {
     if (user) return;
@@ -76,19 +80,39 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />}>
           <Route path="/dashboard/profile" element={<Profile />}></Route>
           <Route path="/dashboard/settings" element={<Settings />}></Route>
-          <Route
-            path="/dashboard/enrolled-courses"
-            element={<EnrolledCourses />}
-          ></Route>
-          <Route path="/dashboard/cart" element={<Cart />}></Route>
+          {user?.accountType == ACCOUNT_TYPE.STUDENT && (
+            <>
+              <Route
+                path="/dashboard/enrolled-courses"
+                element={<EnrolledCourses />}
+              ></Route>
+              <Route path="/dashboard/cart" element={<Cart />}></Route>
+            </>
+          )}
+          {user?.accountType == ACCOUNT_TYPE.INSTRUCTOR && (
+            <>
+              <Route
+                path="/dashboard/add-course"
+                element={<AddCourse />}
+              ></Route>
+              <Route
+                path="/dashboard/instructor-dashboard"
+                element={<InstructorDashboard />}
+              ></Route>
+              <Route
+                path="/dashboard/my-courses"
+                element={<MyCourse />}
+              ></Route>
+            </>
+          )}
         </Route>
         <Route path="/course/:courseId" element={<Course />}></Route>
         <Route path="/otp" element={<OTPVerify />}></Route>
-        <Route  element={<ViewCourse />}>
+        <Route element={<ViewCourse />}>
           {user?.accountType === ACCOUNT_TYPE.STUDENT && (
             <Route
               path="view-course/:courseId/section/:sectionId/sub-section/:subSectionId"
-              element={<VideoDetails/>}
+              element={<VideoDetails />}
             />
           )}
         </Route>
