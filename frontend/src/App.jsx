@@ -11,7 +11,8 @@ import Catalog from "./pages/Catalog";
 import ForgetPassword from "./pages/ForgetPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Course from "./pages/Course";
-import AddCourse from "./pages/Dashboard/AddCourse";
+import AddCourse from "./components/dashboard/AddCourse";
+import EditCourse from "./components/dashboard/EditCourse";
 import MyCourse from "./pages/Dashboard/MyCourse";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import { useDispatch, useSelector } from "react-redux";
@@ -94,6 +95,10 @@ function App() {
               <Route
                 path="/dashboard/add-course"
                 element={<AddCourse />}
+              ></Route>
+              <Route
+                path="/dashboard/edit-course/:courseId"
+                element={<EditCourse />}
               ></Route>
               <Route
                 path="/dashboard/instructor-dashboard"

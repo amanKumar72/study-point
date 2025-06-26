@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import ReactPlayer from "react-player";
 
-import "video-react/dist/video-react.css";
 import { useLocation } from "react-router-dom";
 import { BigPlayButton, Player } from "video-react";
 

@@ -42,8 +42,8 @@ const CourseStatistics = ({ courses }) => {
   const [isStudentSelected, setIsStudentSelected] = useState(true);
 
   return (
-    <div className="flex flex-col md:flex-row gap-5">
-      <div className="w-[100%] md:w-[60%] flex flex-col gap-5 bg-gray-800 py-2 md:px-8 md:py-4 rounded-lg">
+    <div className="flex  flex-col md:flex-row gap-5">
+      <div className="w-[100%] md:w-[60%] flex flex-col gap-5 bg-gray-900 py-2 md:px-8 md:py-4 rounded-lg">
         <h1 className="text-lg md:text-2xl font-semibold text-center">
           Visualization
         </h1>
@@ -67,11 +67,11 @@ const CourseStatistics = ({ courses }) => {
             Income
           </button>
         </div>
-        <div className="">
+        <div className="max-h-100 flex justify-center">
           <Pie data={isStudentSelected?dataForStudentChart:dataForIncomeChart} />
         </div>
       </div>
-      <div className="w-[100%] md:w-[40%] flex flex-col gap-5 bg-gray-800 py-2 md:px-8 md:py-4 rounded-lg text-center">
+      <div className="w-[100%] md:w-[40%] flex flex-col gap-5 bg-gray-900 py-2 md:px-8 md:py-4 rounded-lg text-center">
         <h1 className="text-lg md:text-2xl font-semibold ">
           Statistics
         </h1>
