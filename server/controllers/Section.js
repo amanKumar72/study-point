@@ -4,7 +4,7 @@ const Course = require("../models/Course");
 
 exports.createSection = async (req, res) => {
   const { name, description, courseId } = req.body;
-  if (!name || !description || !courseId) {
+  if (!name || !courseId) {
     return res.status(400).json({
       message: "All fields are required",
     });

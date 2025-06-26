@@ -119,9 +119,9 @@ exports.createCourse = async (req, res) => {
 exports.editCourse = async (req, res) => {
   try {
     const { courseId } = req.body;
-    const updates = req.body;
+    const updates = {...req.body};
     const course = await Course.findById(courseId);
-
+    console.log(updates)
     if (!course) {
       return res.status(404).json({ success: false, message: "Course not found" });
     }
@@ -168,7 +168,7 @@ exports.editCourse = async (req, res) => {
       .populate({
         path: "courseContent",
         populate: {
-          path: "subSection",
+          path: "subSections",
         },
       })
       .exec();
@@ -328,8 +328,8 @@ exports.getFullCourseDetails = async (req, res) => {
         message: `Could not find course with id: ${courseId}`,
       })
     }
-
-    if (courseDetails.status === "Draft") {
+    // console.log(courseDetails.instructor._id,userId,courseDetails.instructor._id.equals(userId))
+    if (courseDetails.status === "Draft" && !courseDetails.instructor._id.equals(userId)) {
       return res.status(403).json({
         success: false,
         message: `Accessing a draft course is forbidden`,

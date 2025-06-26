@@ -35,8 +35,9 @@ exports.createSubSection = async (req, res) => {
       });
     }
 
+    console.log("before upload")
     const url = await uploadImage(videoFile, process.env.UPLOAD_FOLDER);
-
+    console.log("after upload")
     const subSection = new SubSection({
       title: name,
       description: description,
