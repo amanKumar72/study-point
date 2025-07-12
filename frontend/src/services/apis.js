@@ -17,7 +17,7 @@ export const authApis = {
 export const catagoryApi = {
   allCategories: `${BASE_URL}/course/showAllcategories`,
   categoryPage: `${BASE_URL}/course/getCategoryPageDetails`,
-  createCategory: `${BASE_URL}/course/createCatefory`,
+  createCategory: `${BASE_URL}/course/createCategory`,
 };
 
 export const courseApi = {

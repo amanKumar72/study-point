@@ -16,7 +16,6 @@ export default function Upload({
   viewData = null,
   editData = null,
 }) {
-  const { course } = useSelector((state) => state.course);
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewSource, setPreviewSource] = useState(
     viewData ? viewData : editData ? editData : ""
@@ -103,13 +102,13 @@ export default function Upload({
             className="flex w-full flex-col items-center p-6"
             {...getRootProps()}
           >
-            <input {...getInputProps()}  ref={inputRef} />
+            <input {...getInputProps()}  ref={inputRef} type="file" id="fileInput"/>
             <div className="grid aspect-square w-14 place-items-center rounded-full bg-gray-800">
               <FiUploadCloud className="text-2xl text-yellow-400" />
             </div>
             <p className="mt-2 max-w-[200px] text-center text-sm text-gray-200">
               Drag and drop an {!video ? "image" : "video"}, or click to
-              <span className="font-semibold text-yellow-300"> Browse</span> a
+              <label htmlFor="fileInput" className="font-semibold text-yellow-300 cursor-pointer  "> Browse</label> a
               file
             </p>
             <ul className="mt-10 flex list-disc justify-between space-x-12 text-center  text-xs text-gray-200">

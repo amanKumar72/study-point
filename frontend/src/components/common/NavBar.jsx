@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../../assets/Logo/Logo-Full-Light.png";
 import { FaTimes, FaBars } from "react-icons/fa";
@@ -8,25 +8,32 @@ import { resetCart } from "../../slices/cartSlice";
 
 import { useDispatch, useSelector } from "react-redux";
 import LogoutDialog from "./LogoutDialog";
+import { fetchCourseCategories } from "../../services/operations/courseDetailsAPI";
+import { ACCOUNT_TYPE } from "../../utils/constants";
 const NavBar = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.profile.user);
   const { cart } = useSelector((state) => state.cart);
   const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [items, setItems] = useState([]);
   const [showProfileOptions, setShowProfileOptions] = useState(false);
   const navigate = useNavigate();
 
-  const items = [
-    "Python",
-    "Web Developement",
-    "Android Developement",
-    "Blockchain",
-    "Artificial Intelligence",
-    "Data Science",
-    "Cloud Computing",
-    "Devops",
-    "CyberSecurity",
-  ];
+  useEffect(() => {
+    const getCategories = async () => {
+      setLoading(true);
+      const categories = await fetchCourseCategories();
+      if (categories.length > 0) {
+        // console.log("categories", categories)
+        setItems(categories);
+      }
+      setLoading(false);
+    };
+    getCategories();
+  }, []);
+  console.log(items);
+
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
 
@@ -69,22 +76,28 @@ const NavBar = () => {
                   <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-2 w-4 h-4 bg-gray-100 rotate-45 z-0" />
 
                   <ul className="relative z-10">
-                    {items.map((item, index) => (
-                      <li
-                        key={index}
-                        onClick={() =>
-                          navigate(
-                            `/catalog/${item
-                              .split(" ")
-                              .join("-")
-                              .toLowerCase()}`
-                          )
-                        }
-                        className="px-6 py-2 hover:bg-gray-300 cursor-pointer"
-                      >
-                        {item}
-                      </li>
-                    ))}
+                    {loading ? (
+                      <li>Loading...</li>
+                    ) : (
+                      <>
+                        {items.map(({ name }, index) => (
+                          <li
+                            key={index}
+                            onClick={() =>
+                              navigate(
+                                `/catalog/${name
+                                  .split(" ")
+                                  .join("-")
+                                  .toLowerCase()}`
+                              )
+                            }
+                            className="px-6 py-2 hover:bg-gray-300 cursor-pointer"
+                          >
+                            {name}
+                          </li>
+                        ))}
+                      </>
+                    )}
                   </ul>
                 </div>
               )}
@@ -113,25 +126,27 @@ const NavBar = () => {
         </div>
         {user ? (
           <div className="flex flex-col md:flex-row">
-            <NavLink
-              to="/dashboard/cart"
-              className={({ isActive }) => {
-                return `${
-                  isActive ? "text-yellow-200 " : ""
-                }  px-3 py-1 hover:bg-gray-700 rounded-xl `;
-              }}
-            >
-              {!isOpen ? (
-                <div className="relative">
-                  <GrCart className="text-white text-2xl" />
-                  <span className="absolute top-[-10px] right-[-10px] bg-gray-500 text-zinc-100 text-sm w-5 h-5 rounded-full flex items-center justify-center">
-                    {cart?.length || 0}
-                  </span>
-                </div>
-              ) : (
-                "Cart"
-              )}
-            </NavLink>
+            {user.accountType === ACCOUNT_TYPE.STUDENT && (
+              <NavLink
+                to="/dashboard/cart"
+                className={({ isActive }) => {
+                  return `${
+                    isActive ? "text-yellow-200 " : ""
+                  }  px-3 py-1 hover:bg-gray-700 rounded-xl `;
+                }}
+              >
+                {!isOpen ? (
+                  <div className="relative">
+                    <GrCart className="text-white text-2xl" />
+                    <span className="absolute top-[-10px] right-[-10px] bg-gray-500 text-zinc-100 text-sm w-5 h-5 rounded-full flex items-center justify-center">
+                      {cart?.length || 0}
+                    </span>
+                  </div>
+                ) : (
+                  "Cart"
+                )}
+              </NavLink>
+            )}
             <button
               className="px-3 py-1 hover:bg-gray-700 text-start rounded-xl"
               to="/dashboard/profile"
@@ -157,7 +172,7 @@ const NavBar = () => {
                   </NavLink>
                   <NavLink
                     onClick={() => {
-                    setShowLogoutDialog(true);
+                      setShowLogoutDialog(true);
                     }}
                     className=" hover:bg-gray-300 p-1 md:p-2 block mb-2 rounded-md"
                   >

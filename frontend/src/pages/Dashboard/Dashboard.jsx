@@ -115,6 +115,27 @@ const Dashboard = () => {
                 </NavLink>
               </>
             )}
+            {user?.accountType == ACCOUNT_TYPE.ADMIN && (
+              <>
+                <NavLink
+                  to="/dashboard/add-category"
+                  className={({ isActive }) => {
+                    return `${
+                      isActive ? "bg-[#3d2a01] text-yellow-400 " : ""
+                    } text-gray-300 px-2 py-1 md:px-4 md:py-2 rounded-lg  `;
+                  }}
+                >
+                  {isMobile ? (
+                    <FaPlus />
+                  ) : (
+                    <span className="flex gap-2 items-center">
+                      {" "}
+                      <FaPlus /> Add Category
+                    </span>
+                  )}
+                </NavLink>
+              </>
+            )}
             {user?.accountType == ACCOUNT_TYPE.INSTRUCTOR && (
               <>
                 <NavLink

@@ -11,8 +11,10 @@ import Catalog from "./pages/Catalog";
 import ForgetPassword from "./pages/ForgetPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Course from "./pages/Course";
+import Courses from "./pages/Courses";
 import AddCourse from "./components/dashboard/AddCourse";
 import EditCourse from "./components/dashboard/EditCourse";
+import AddCategory from "./components/dashboard/AddCategory.jsx";
 import MyCourse from "./pages/Dashboard/MyCourse";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,8 +30,11 @@ import NotFound from "./pages/NotFound";
 import { ACCOUNT_TYPE } from "./utils/constants";
 import ViewCourse from "./pages/ViewCourse";
 import VideoDetails from "./components/viewCourse/VideoDetails";
-
+  
 function App() {
+
+  console.log=function(){}
+
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.profile);
   // console.log(user);
@@ -71,6 +76,7 @@ function App() {
         <Route path="/aboutus" element={<AboutUs />}></Route>
         <Route path="/contactUs" element={<ContactUs />}></Route>
         <Route path="/thank-you" element={<Thankingyou />}></Route>
+        <Route path="/courses" element={<Courses />}></Route>
         <Route path="/otp" element={<OTPVerify />}></Route>
         <Route path="/forget-password" element={<ForgetPassword />}></Route>
         <Route
@@ -107,6 +113,14 @@ function App() {
               <Route
                 path="/dashboard/my-courses"
                 element={<MyCourse />}
+              ></Route>
+            </>
+          )}
+          {user?.accountType == ACCOUNT_TYPE.ADMIN && (
+            <>
+              <Route
+                path="/dashboard/add-category"
+                element={<AddCategory />}
               ></Route>
             </>
           )}

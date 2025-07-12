@@ -3,6 +3,7 @@ import NavBar from "../components/common/NavBar";
 import Footer from "../components/common/Footer";
 import { Link, useParams } from "react-router-dom";
 import { courseApi } from "../services/apis";
+import {ACCOUNT_TYPE} from "../utils/constants"
 import Loader from "../components/common/Loader";
 import RatingStars from "../components/common/RatingStars";
 import { useDispatch, useSelector } from "react-redux";
@@ -57,7 +58,7 @@ const Course = () => {
         {error || <Loader />}
         {error && (
           <Link
-            to="/"
+           onClick={()=>window.history.back()}
             className="text-gray-300 px-5 py-2 lg:px-10 lg:py-3 bg-gray-800 rounded-2xl"
           >
             Go Back
@@ -260,12 +261,17 @@ const Course = () => {
               </div>
 
               {user?.courses?.find((course) => course._id == courseId) ? (
-                <Link
-                  to={`/view-course/${course?._id}/section/${course?.courseContent?.[0]?._id}/sub-section/${course?.courseContent?.[0]?.subSections?.[0]?._id}`}
-                  className="block text-center w-fufll bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-4 rounded-xl font-bold text-lg hover:from-purple-700 hover:to-indigo-700 transform hover:scale-[1.02] transition-all duration-300 shadow-lg"
-                >
-                 Continue learning
-                </Link>
+               <>{user.accountType==ACCOUNT_TYPE.STUDENT? <Link
+                to={`/view-course/${course?._id}/section/${course?.courseContent?.[0]?._id}/sub-section/${course?.courseContent?.[0]?.subSections?.[0]?._id}`}
+                className="block text-center w-fufll bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-4 rounded-xl font-bold text-lg hover:from-purple-700 hover:to-indigo-700 transform hover:scale-[1.02] transition-all duration-300 shadow-lg"
+              >
+               Continue learning
+              </Link>: <Link
+                to={`/dashboard/instructor-dashboard`}
+                className="block text-center w-fufll bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-4 rounded-xl font-bold text-lg hover:from-purple-700 hover:to-indigo-700 transform hover:scale-[1.02] transition-all duration-300 shadow-lg"
+              >
+               Manage Course
+              </Link>}</>
               ) : (
                 <>
                   <button

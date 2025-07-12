@@ -1,7 +1,7 @@
 import { toast } from "react-toastify"
 
 import { apiConnector } from "../apiConnector"
-import { courseApi } from "../apis"
+import { courseApi ,catagoryApi} from "../apis"
 
 const {
   COURSE_DETAILS_API,
@@ -30,7 +30,8 @@ export const getAllCourses = async () => {
     if (!response?.data?.success) {
       throw new Error("Could Not Fetch Course Categories")
     }
-    result = response?.data?.data
+    console.log(response)
+    result = response?.data?.allcourses
   } catch (error) {
     console.log("GET_ALL_COURSE_API API ERROR............", error)
     toast.error(error.message)
@@ -98,6 +99,28 @@ export const addCourseDetails = async (data, token) => {
     result = response?.data?.data
   } catch (error) {
     console.log("CREATE COURSE API ERROR............", error)
+    toast.error(error.message)
+  }
+  toast.dismiss(toastId)
+  return result
+}
+// create the category 
+export const createCategory = async (data, token) => {
+  let result = null
+  const toastId = toast.loading("Loading...")
+  try {
+    const response = await apiConnector("POST",catagoryApi.createCategory , data, {
+      "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${token}`,
+    })
+    console.log("CREATE CATEGORY API RESPONSE............", response)
+    if (!response?.data?.success) {
+      throw new Error("Could Not Add Course Details")
+    }
+    toast.success("CATEGORY Details Added Successfully")
+    result = response?.data?.data
+  } catch (error) {
+    console.log("CREATE CATEGORY API ERROR............", error)
     toast.error(error.message)
   }
   toast.dismiss(toastId)
