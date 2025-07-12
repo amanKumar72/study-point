@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import logo from "../../assets/Logo/Logo-Full-Light.png";
+import logo from "../../assets/logo/Logo-Full-Light.png";
 import { FaTimes, FaBars } from "react-icons/fa";
 import { GrCart } from "react-icons/gr";
 import { logout } from "../../slices/profileSlice";

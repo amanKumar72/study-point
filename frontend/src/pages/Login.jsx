@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import login from "../assets/Images/login.webp";
+import login from "../assets/images/login.webp";
 import HighLighedText from "../components/Home/HighLighedText";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";

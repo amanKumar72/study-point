@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import signup from "../assets/Images/signup.webp";
+import signup from "../assets/images/signup.webp";
 import HighLighedText from "../components/Home/HighLighedText";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
