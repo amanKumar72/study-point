@@ -217,12 +217,12 @@ const VideoDetails = () => {
             ref={playerRef}
             //   aspectratio="16:9"
             loop={false}
-            controls
+            controls={true}
             onEnded={() => {
               // console.log("video ended");
               setVideoEnded(true);
             }}
-            url={videoData?.videoUrl}
+            url={videoData?.videoUrl?.replace(".mp4",".m3u8")}
             pip={false}
             width={"full"}
             height={"90vh"}
